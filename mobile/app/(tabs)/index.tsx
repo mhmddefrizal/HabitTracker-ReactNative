@@ -5,9 +5,6 @@ export default function Index() {
   return (
     <View style={styles.view}>
       <Text>Lorem ipsum dolor sit amet.</Text>
-      <Link href="/login" style={styles.navButton}>
-        Halaman Login
-      </Link>
     </View>
   );
 }
