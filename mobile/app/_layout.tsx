@@ -1,7 +1,14 @@
 import { Stack } from "expo-router";
+import { useEffect } from "react";
 
 function RouteGuard({ children }: { children: React.ReactNode }) {
-  
+  const isAuth = false;
+
+  useEffect(() => {
+    if (!isAuth) {
+      // redirect to login screen
+    }
+  });
 }
 export default function RootLayout() {
   return (
