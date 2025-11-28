@@ -1,18 +1,24 @@
 import { Stack, useRouter } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function RouteGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const isAuth = false;
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    if (!isAuth) {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isAuth && isMounted) {
       router.replace("/auth");
     }
-  });
+  }, [isAuth, isMounted, router]);
 
   return <>{children}</>;
 }
+
 export default function RootLayout() {
   return (
     <RouteGuard>
