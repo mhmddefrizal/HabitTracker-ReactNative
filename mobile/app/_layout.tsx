@@ -1,5 +1,8 @@
 import { Stack } from "expo-router";
 
+function RouteGuard({ children }: { children: React.ReactNode }) {
+  
+}
 export default function RootLayout() {
   return (
     <Stack>
