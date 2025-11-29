@@ -1,4 +1,6 @@
-import { KeyboardAvoidingView, Platform, Text, TextInput, View } from "react-native";
+import { KeyboardAvoidingView, Platform, View } from "react-native";
+
+import { Text, TextInput } from "react-native-paper";
 
 export default function AuthScreen() {
   return (
