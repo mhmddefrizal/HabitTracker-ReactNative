@@ -12,7 +12,8 @@ export default function AuthScreen() {
 
         <TextInput label="Password" autoCapitalize="none" keyboardType="email-address" mode="outlined" />
 
-        <Button mode="contained">Sign Up</Button>
+        <Button mode="contained">Daftar Akun</Button>
+        <Button mode="text">Sudah punya akun? Masuk</Button>
       </View>
     </KeyboardAvoidingView>
   );
