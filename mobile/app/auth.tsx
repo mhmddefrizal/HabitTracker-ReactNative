@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { KeyboardAvoidingView, Platform, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 
 import { Button, Text, TextInput } from "react-native-paper";
 
@@ -12,8 +12,8 @@ export default function AuthScreen() {
     setIsSignUp((prev) => !prev);
   };
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-      <View>
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+      <View style={styles.content}>
         <Text>{isSignUp ? "Buat Akun" : "Selamat datang kembali"}</Text>
 
         <TextInput label="Email" autoCapitalize="none" keyboardType="email-address" placeholder="example@gmail.com" mode="outlined" />
@@ -28,3 +28,15 @@ export default function AuthScreen() {
     </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f5f5f5",
+  },
+  content: {
+    flex: 1,
+    padding: 16,
+    justifyContent: "center",
+  },
+});
