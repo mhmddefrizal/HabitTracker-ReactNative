@@ -23,7 +23,7 @@ export default function AuthScreen() {
         <Button mode="contained" style={styles.button}>
           {isSignUp ? "Daftar Akun" : "Masuk"}
         </Button>
-        <Button mode="text" onPress={handleSwitchMode}>
+        <Button mode="text" onPress={handleSwitchMode} style={styles.switchModeButton}>
           {isSignUp ? "Sudah punya akun? Masuk" : "Belum punya akun? Daftar"}
         </Button>
       </View>
@@ -50,5 +50,8 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 8,
+  },
+  switchModeButton: {
+    marginTop: 16,
   },
 });
