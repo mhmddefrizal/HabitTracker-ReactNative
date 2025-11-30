@@ -7,6 +7,9 @@ export default function AuthScreen() {
   // buat useState Sign Up
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
 
+  // buat fungsi handleAuth
+  const handleAuth = async () => {};
+
   // buat fungsi handleSwitchMode
   const handleSwitchMode = () => {
     setIsSignUp((prev) => !prev);
@@ -23,7 +26,7 @@ export default function AuthScreen() {
 
         <TextInput label="Password" autoCapitalize="none" keyboardType="email-address" mode="outlined" style={styles.input} />
 
-        <Button mode="contained" style={styles.button}>
+        <Button mode="contained" style={styles.button} onPress={handleAuth}>
           {isSignUp ? "Daftar Akun" : "Masuk"}
         </Button>
         <Button mode="text" onPress={handleSwitchMode} style={styles.switchModeButton}>
