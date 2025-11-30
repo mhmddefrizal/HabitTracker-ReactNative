@@ -14,7 +14,10 @@ export default function AuthScreen() {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>{isSignUp ? "Buat Akun" : "Selamat datang kembali"}</Text>
+        <Text style={styles.title} variant="headlineMedium">
+          {" "}
+          {isSignUp ? "Buat Akun" : "Selamat datang kembali"}
+        </Text>
 
         <TextInput label="Email" autoCapitalize="none" keyboardType="email-address" placeholder="example@gmail.com" mode="outlined" style={styles.input} />
 
