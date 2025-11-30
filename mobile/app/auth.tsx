@@ -11,8 +11,15 @@ export default function AuthScreen() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  // buat useState error
+  const [error, setError] = useState<string | null>("");
+
   // buat fungsi handleAuth
-  const handleAuth = async () => {};
+  const handleAuth = async () => {
+    if (!email || !password) {
+      setError("Email dan password harus diisi");
+    }
+  };
 
   // buat fungsi handleSwitchMode
   const handleSwitchMode = () => {
@@ -26,9 +33,9 @@ export default function AuthScreen() {
           {isSignUp ? "Buat Akun" : "Selamat datang kembali"}
         </Text>
 
-        <TextInput label="Email" autoCapitalize="none" keyboardType="email-address" placeholder="example@gmail.com" mode="outlined" style={styles.input} />
+        <TextInput label="Email" autoCapitalize="none" keyboardType="email-address" placeholder="example@gmail.com" mode="outlined" style={styles.input} onChangeText={setEmail} />
 
-        <TextInput label="Password" autoCapitalize="none" keyboardType="email-address" mode="outlined" style={styles.input} />
+        <TextInput label="Password" autoCapitalize="none" keyboardType="email-address" mode="outlined" style={styles.input} onChangeText={setPassword} />
 
         <Button mode="contained" style={styles.button} onPress={handleAuth}>
           {isSignUp ? "Daftar Akun" : "Masuk"}
