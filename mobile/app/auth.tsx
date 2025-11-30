@@ -7,6 +7,10 @@ export default function AuthScreen() {
   // buat useState Sign Up
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
 
+  // buat useState email dan password
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
   // buat fungsi handleAuth
   const handleAuth = async () => {};
 
