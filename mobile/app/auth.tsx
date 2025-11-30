@@ -37,6 +37,8 @@ export default function AuthScreen() {
 
         <TextInput label="Password" autoCapitalize="none" keyboardType="email-address" mode="outlined" style={styles.input} onChangeText={setPassword} />
 
+        {error && <Text style={{ color: "red" }}>{error}</Text>}
+
         <Button mode="contained" style={styles.button} onPress={handleAuth}>
           {isSignUp ? "Daftar Akun" : "Masuk"}
         </Button>
