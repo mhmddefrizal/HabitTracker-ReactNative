@@ -17,6 +17,8 @@ export default function AuthScreen() {
   // buat theme
   const theme = useTheme();
 
+  const {signIn , SignUp} = useAuth();
+
   // buat fungsi handleAuth
   const handleAuth = async () => {
     if (!email || !password) {
@@ -30,6 +32,11 @@ export default function AuthScreen() {
 
     setError(null);
     
+    if (isSignUp) {
+      await SignUp(email, password);
+    }else {
+      await signIn(email, password);
+    }
   };
 
   // buat fungsi handleSwitchMode

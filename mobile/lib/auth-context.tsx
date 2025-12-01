@@ -50,4 +50,6 @@ export function useAuth() {
 if (context === undefined) {
         throw new Error("useAuth harus berada di dalam AuthProvider");
     }
+
+    return context;
 }
