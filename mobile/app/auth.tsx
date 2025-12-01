@@ -14,6 +14,8 @@ export default function AuthScreen() {
   // buat useState error
   const [error, setError] = useState<string | null>("");
 
+  const theme = useTheme();
+
   // buat fungsi handleAuth
   const handleAuth = async () => {
     if (!email || !password) {
