@@ -18,6 +18,7 @@ export default function AuthScreen() {
   const handleAuth = async () => {
     if (!email || !password) {
       setError("Email dan password harus diisi");
+      return;
     }
   };
 
@@ -56,7 +57,7 @@ export default function AuthScreen() {
         />
 
         {error && (
-          <Text> {error}</Text>
+          <Text style={{ color: "red" }}> {error}</Text>
         )}
 
         {error && <Text style={{ color: "red" }}>{error}</Text>}
