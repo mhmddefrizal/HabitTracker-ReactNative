@@ -7,7 +7,7 @@ type AuthContextType = {
     signIn: (email: string, password: string) => Promise<void>;
 }
 
-const AuthContext = createContext(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     return <></>;
