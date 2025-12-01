@@ -17,14 +17,13 @@ export default function AuthScreen() {
   // buat theme
   const theme = useTheme();
 
-  const {signIn , SignUp} = useAuth();
-
   // buat fungsi handleAuth
   const handleAuth = async () => {
     if (!email || !password) {
       setError("Email dan password harus diisi");
-      return;
+      return
     }
+
     if (password.length < 6) {
       setError("Password harus lebih dari 6 karakter");
       return;
@@ -32,11 +31,6 @@ export default function AuthScreen() {
 
     setError(null);
     
-    if (isSignUp) {
-      await SignUp(email, password);
-    }else {
-      await signIn(email, password);
-    }
   };
 
   // buat fungsi handleSwitchMode
@@ -73,11 +67,7 @@ export default function AuthScreen() {
           onChangeText={setPassword}
         />
 
-        {error && (
-          <Text style={{ color: theme.colors.error }}> {error}</Text>
-        )}
-
-        {error && <Text style={{ color: "red" }}>{error}</Text>}
+        {error && <Text style={{ color: theme.colors.error }}>{error}</Text>}
 
         <Button mode="contained" style={styles.button} onPress={handleAuth}>
           {isSignUp ? "Daftar Akun" : "Masuk"}
