@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 
-import { Button, Text, TextInput } from "react-native-paper";
+import { Button, Text, TextInput, useTheme } from "react-native-paper";
 
 export default function AuthScreen() {
   // buat useState Sign Up
