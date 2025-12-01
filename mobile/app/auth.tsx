@@ -59,7 +59,7 @@ export default function AuthScreen() {
         />
 
         {error && (
-          <Text style={{ color: "red" }}> {error}</Text>
+          <Text style={{ color: theme.colors.error }}> {error}</Text>
         )}
 
         {error && <Text style={{ color: "red" }}>{error}</Text>}
