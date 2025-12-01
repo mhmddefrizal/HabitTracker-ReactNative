@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import { ID} from "react-native-appwrite";
 import { account } from "./appwrite";
 
@@ -44,4 +44,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useAuth() {}
+export function useAuth() {
+    const context = useContext(AuthContext);
+}
