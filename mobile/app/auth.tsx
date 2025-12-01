@@ -27,6 +27,9 @@ export default function AuthScreen() {
       setError("Password harus lebih dari 6 karakter");
       return;
     }
+
+    setError(null);
+    
   };
 
   // buat fungsi handleSwitchMode
