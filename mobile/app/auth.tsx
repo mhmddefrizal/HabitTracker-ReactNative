@@ -26,23 +26,49 @@ export default function AuthScreen() {
     setIsSignUp((prev) => !prev);
   };
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
       <View style={styles.content}>
         <Text style={styles.title} variant="headlineMedium">
           {" "}
           {isSignUp ? "Buat Akun" : "Selamat datang kembali"}
         </Text>
 
-        <TextInput label="Email" autoCapitalize="none" keyboardType="email-address" placeholder="example@gmail.com" mode="outlined" style={styles.input} onChangeText={setEmail} />
+        <TextInput
+          label="Email"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          placeholder="example@gmail.com"
+          mode="outlined"
+          style={styles.input}
+          onChangeText={setEmail}
+        />
 
-        <TextInput label="Password" autoCapitalize="none" keyboardType="email-address" mode="outlined" style={styles.input} onChangeText={setPassword} />
+        <TextInput
+          label="Password"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          mode="outlined"
+          style={styles.input}
+          onChangeText={setPassword}
+        />
+
+        {error && (
+          <Text> {error}</Text>
+        )}
 
         {error && <Text style={{ color: "red" }}>{error}</Text>}
 
         <Button mode="contained" style={styles.button} onPress={handleAuth}>
           {isSignUp ? "Daftar Akun" : "Masuk"}
         </Button>
-        <Button mode="text" onPress={handleSwitchMode} style={styles.switchModeButton}>
+        <Button
+          mode="text"
+          onPress={handleSwitchMode}
+          style={styles.switchModeButton}
+        >
           {isSignUp ? "Sudah punya akun? Masuk" : "Belum punya akun? Daftar"}
         </Button>
       </View>
