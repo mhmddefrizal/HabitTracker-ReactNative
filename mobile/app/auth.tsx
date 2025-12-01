@@ -14,12 +14,17 @@ export default function AuthScreen() {
   // buat useState error
   const [error, setError] = useState<string | null>("");
 
+  // buat theme
   const theme = useTheme();
 
   // buat fungsi handleAuth
   const handleAuth = async () => {
     if (!email || !password) {
       setError("Email dan password harus diisi");
+      return;
+    }
+    if (password.length < 6) {
+      setError("Password harus lebih dari 6 karakter");
       return;
     }
   };
