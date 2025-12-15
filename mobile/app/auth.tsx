@@ -69,7 +69,7 @@ export default function AuthScreen() {
       <View style={styles.content}>
         <Text style={styles.title} variant="headlineMedium">
           {" "}
-          {isSignUp ? "Buat Akun" : "Selamat datang kembali"}
+          {isSignUp ? "Buat Akun" : "Login Akun"}
         </Text>
 
         <TextInput label="Email" autoCapitalize="none" keyboardType="email-address" placeholder="example@gmail.com" mode="outlined" style={styles.input} onChangeText={setEmail} />
