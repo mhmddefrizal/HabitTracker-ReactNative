@@ -1,5 +1,5 @@
 import { useAuth } from "@/lib/auth-context";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
@@ -17,6 +17,9 @@ export default function AuthScreen() {
 
   // buat theme
   const theme = useTheme();
+
+  // buat router untuk navigasi
+  const router = useRouter();
 
   // buat panggil signIn dan signUp dari useAuth
   const { signIn, signUp } = useAuth();
@@ -52,7 +55,8 @@ export default function AuthScreen() {
         setError(error);
         return;
       }
-      router;
+      // jika berhasil maka navigasi ke halaman utama
+      router.replace("/");
     }
   };
 
@@ -70,7 +74,7 @@ export default function AuthScreen() {
 
         <TextInput label="Email" autoCapitalize="none" keyboardType="email-address" placeholder="example@gmail.com" mode="outlined" style={styles.input} onChangeText={setEmail} />
 
-        <TextInput label="Password" autoCapitalize="none" keyboardType="email-address" mode="outlined" style={styles.input} onChangeText={setPassword} />
+        <TextInput label="Password" autoCapitalize="none" mode="outlined" secureTextEntry style={styles.input} onChangeText={setPassword} />
 
         {error && <Text style={{ color: theme.colors.error }}>{error}</Text>}
 
