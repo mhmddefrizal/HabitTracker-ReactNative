@@ -1,6 +1,7 @@
+import { useAuth } from "@/lib/auth-context";
+import { router } from "expo-router";
 import { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
-
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 
 export default function AuthScreen() {
@@ -17,6 +18,9 @@ export default function AuthScreen() {
   // buat theme
   const theme = useTheme();
 
+  // buat panggil signIn dan signUp dari useAuth
+  const { signIn, signUp } = useAuth();
+
   // buat fungsi handleAuth
   const handleAuth = async () => {
     if (!email || !password) {
@@ -30,6 +34,26 @@ export default function AuthScreen() {
     }
 
     setError(null);
+
+    // buat kondisi ketika isSignUp true
+    if (isSignUp) {
+      const error = await signUp(email, password);
+      // jika error maka setError
+      if (error) {
+        setError(error);
+        return;
+      }
+    }
+    // jika false maka panggil signIn
+    else {
+      const error = await signIn(email, password);
+      // jika error maka setError
+      if (error) {
+        setError(error);
+        return;
+      }
+      router;
+    }
   };
 
   // buat fungsi handleSwitchMode
