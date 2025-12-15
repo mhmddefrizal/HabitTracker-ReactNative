@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import { ID } from "react-native-appwrite";
 import { account } from "./appwrite";
 
@@ -36,4 +36,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return <AuthContext.Provider value={{ signUp, signIn }}>{children}</AuthContext.Provider>;
 }
 
-export function useAuth() {}
+export function useAuth() {
+  // buat useContext untuk AuthContext agar bisa digunakan di komponen lain
+  const context = useContext(AuthContext);
+  //   kondisi ketika context undefined
+  if (context === undefined) {
+    throw new Error("useAuth seharusnya digunakan di dalam AuthProvider");
+  }
+  return context;
+}
