@@ -1,21 +1,19 @@
-import { AuthProvider } from "@/lib/auth-context";
+import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 
 function RouteGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const isAuth = false;
-  const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  // buat state user dari useAuth agar bisa digunakan di komponen lain
+  const { user } = useAuth();
 
+  // buat useEffect ketika user null maka redirect ke halaman /auth
   useEffect(() => {
-    if (!isAuth && isMounted) {
+    if (!user) {
       router.replace("/auth");
     }
-  }, [isAuth, isMounted, router]);
+  });
 
   return <>{children}</>;
 }

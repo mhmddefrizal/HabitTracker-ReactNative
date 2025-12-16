@@ -53,7 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return "terjadi kesalahan saat masuk.";
     }
   };
-  return <AuthContext.Provider value={{ signUp, signIn }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, signUp, signIn }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
