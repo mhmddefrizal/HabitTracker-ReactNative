@@ -1,15 +1,35 @@
-import { createContext, useContext } from "react";
-import { ID } from "react-native-appwrite";
+import { createContext, useContext, useEffect, useState } from "react";
+import { ID, Models } from "react-native-appwrite";
 import { account } from "./appwrite";
 
 type AuthContextType = {
-  //   user: Models.User<Models.Preferences> | null;
+  user: Models.User<Models.Preferences> | null;
   signUp: (email: string, password: string) => Promise<string | null>;
   signIn: (email: string, password: string) => Promise<string | null>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  // buat useState user untuk menyimpan data user
+  const [user, setUser] = useState<Models.User<Models.Preferences> | null>(null);
+
+  // buat useEffect untuk mendapatkan data user
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  // buat fungsi getUser untuk mendapatkan data user
+  const getUser = async () => {
+    // panggil account.get dari appwrite
+    try {
+      const session = await account.get();
+      setUser(session);
+    } catch (error) {
+      // jika error maka setUser null
+      setUser(null);
+    }
+  };
+
   const signUp = async (email: string, password: string) => {
     try {
       await account.create(ID.unique(), email, password);
