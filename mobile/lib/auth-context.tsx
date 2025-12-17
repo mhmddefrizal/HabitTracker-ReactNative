@@ -10,6 +10,7 @@ type AuthContextType = {
   // buat fungsi signUp dan signIn untuk mendaftar dan masuk
   signUp: (email: string, password: string) => Promise<string | null>;
   signIn: (email: string, password: string) => Promise<string | null>;
+  signOut: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -63,7 +64,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return "terjadi kesalahan saat masuk.";
     }
   };
-  return <AuthContext.Provider value={{ user, isLoadingUser, signUp, signIn }}>{children}</AuthContext.Provider>;
+
+  // buat fungsi signOut untuk logout
+  const signOut = async () => {
+    try {
+      await account.deleteSession("current");
+      setUser(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return <AuthContext.Provider value={{ user, isLoadingUser, signUp, signIn, signOut }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
