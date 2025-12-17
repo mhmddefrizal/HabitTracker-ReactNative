@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 function RouteGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   // buat state user dari useAuth agar bisa digunakan di komponen lain
-  const { user } = useAuth();
+  const { user, isLoadingUser } = useAuth();
 
   // buat state segments dari useSegments agar bisa digunakan di komponen lain
   const segments = useSegments();
@@ -15,12 +15,12 @@ function RouteGuard({ children }: { children: React.ReactNode }) {
     // cek apakah route berada di group auth
     const inAuthGroup = segments[0] === "auth";
     // jika user null dan tidak berada di group auth maka redirect ke halaman /auth
-    if (!user && !inAuthGroup) {
+    if (!user && !inAuthGroup && !isLoadingUser) {
       router.replace("/auth");
-    } else if (user && inAuthGroup) {
+    } else if (user && inAuthGroup && !isLoadingUser) {
       router.replace("/");
     }
-  });
+  }, [user, segments]);
 
   return <>{children}</>;
 }

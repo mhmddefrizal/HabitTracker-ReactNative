@@ -3,7 +3,11 @@ import { ID, Models } from "react-native-appwrite";
 import { account } from "./appwrite";
 
 type AuthContextType = {
+  // buat user dan isLoadingUser untuk menyimpan data user dan status loading
   user: Models.User<Models.Preferences> | null;
+  isLoadingUser: boolean;
+
+  // buat fungsi signUp dan signIn untuk mendaftar dan masuk
   signUp: (email: string, password: string) => Promise<string | null>;
   signIn: (email: string, password: string) => Promise<string | null>;
 };
@@ -12,6 +16,9 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   // buat useState user untuk menyimpan data user
   const [user, setUser] = useState<Models.User<Models.Preferences> | null>(null);
+
+  // buat useState isLoadingUser untuk menyimpan status loading
+  const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
 
   // buat useEffect untuk mendapatkan data user
   useEffect(() => {
@@ -27,6 +34,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       // jika error maka setUser null
       setUser(null);
+    } finally {
+      // set isLoadingUser false
+      setIsLoadingUser(false);
     }
   };
 
@@ -53,7 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return "terjadi kesalahan saat masuk.";
     }
   };
-  return <AuthContext.Provider value={{ user, signUp, signIn }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, isLoadingUser, signUp, signIn }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
