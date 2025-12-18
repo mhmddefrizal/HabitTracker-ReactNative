@@ -1,4 +1,4 @@
-import MaterialCommunityIcons from "@expo/vector-icons/AntDesign";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { Tabs } from "expo-router";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -17,7 +17,7 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: "Today's Habits",
-          tabBarIcon: ({ color, focused }) => <MaterialCommunityIcons />,
+          tabBarIcon: ({ color, focused }) => <FontAwesome5 name="calendar-day" />,
         }}
       />
       <Tabs.Screen
