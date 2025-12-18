@@ -17,7 +17,7 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: "Kebiasaan Hari Ini",
-          tabBarIcon: ({ color, focused }) => <FontAwesome5 name="calendar-day" />,
+          tabBarIcon: ({ color, size }) => <FontAwesome5 name="calendar-day" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
