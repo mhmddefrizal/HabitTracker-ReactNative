@@ -41,6 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // buat fungsi signUp untuk mendaftar user
   const signUp = async (email: string, password: string) => {
     try {
       await account.create(ID.unique(), email, password);
@@ -53,9 +54,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return "Terjadi kesalahan saat melakukan pendaftaran.";
     }
   };
+
+  // buat fungsi signIn untuk masuk user
   const signIn = async (email: string, password: string) => {
+    // panggil account.createEmailPasswordSession dari appwrite
     try {
       await account.createEmailPasswordSession(email, password);
+      // buat variable session untuk menyimpan data user dari account.get
+      const session = await account.get();
+      // set user dengan data session yang didapatkan dari account.get
+      setUser(session);
       return null;
     } catch (error) {
       if (error instanceof Error) {
