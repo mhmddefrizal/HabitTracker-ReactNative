@@ -2,6 +2,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { Tabs } from "expo-router";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 export default function TabsLayout() {
   return (
     <Tabs
@@ -16,17 +17,22 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Kebiasaan Hari Ini",
+          title: "Habit Hari Ini",
           tabBarIcon: ({ color, size }) => <FontAwesome5 name="calendar-day" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="login"
+        name="streaks"
         options={{
-          title: "Login",
-          tabBarIcon: ({ color, focused }) => {
-            return focused ? <Entypo name="login" size={24} color={color} /> : <MaterialIcons name="login" size={24} color="black" />;
-          },
+          title: "Streaks",
+          tabBarIcon: ({ color, size }) => <AntDesign name="line-chart" size={24} color="black" />,
+        }}
+      />
+      <Tabs.Screen
+        name="tambah-habit"
+        options={{
+          title: "Tambah Habit",
+          tabBarIcon: ({ color, size }) => <AntDesign name="plus-circle" size={24} color="black" />,
         }}
       />
     </Tabs>
