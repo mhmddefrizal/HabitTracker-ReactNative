@@ -59,12 +59,13 @@ export default function Index() {
           habits.map((habit, key) => (
             <Swipeable ref={(ref) => {
               swipeableRef.current{ habit.$id }=ref;
-        key={key}
-        overshootLeft={false}
-        overshootRight={false}
-        renderRightActions={renderRightActions}
-        renderLeftActions={renderLeftActions}
-            }}>
+            }}
+              key={key}
+              overshootLeft={false}
+              overshootRight={false}
+              renderRightActions={renderRightActions}
+              renderLeftActions={renderLeftActions}
+            >
         <Surface style={styles.card} elevation={0}>
           <View key={key} style={styles.cardContent}>
             <Text style={styles.cardTitle}>
