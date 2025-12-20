@@ -4,10 +4,21 @@ import { Text, View, StyleSheet } from "react-native";
 import { Button, Card, Surface } from "react-native-paper";
 import TambahHabitScreen from "./tambah-habit";
 import CardTitle from "react-native-paper/lib/typescript/components/Card/CardTitle";
+import { useEffect } from "react";
+import { client } from "@/lib/appwrite";
 
 export default function Index() {
   // buat variabel signOut dari useAuth
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
+
+  const [habits, setHabits] = useState<Habit[]>();
+
+  useEffect(() => {
+    fetchHabits();
+
+    const habitsSubsription = client.subscribe(`databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`)
+  }, [user]);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -49,6 +60,7 @@ export default function Index() {
             </View>
           </Surface>
         ))
+      )}
     </View>
   );
 }
