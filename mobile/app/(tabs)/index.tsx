@@ -62,6 +62,8 @@ export default function Index() {
         key={key}
         overshootLeft={false}
         overshootRight={false}
+        renderRightActions={renderRightActions}
+        renderLeftActions={renderLeftActions}
             }}>
         <Surface style={styles.card} elevation={0}>
           <View key={key} style={styles.cardContent}>
