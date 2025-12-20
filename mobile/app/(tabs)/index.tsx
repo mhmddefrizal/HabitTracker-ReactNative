@@ -18,12 +18,28 @@ export default function Index() {
         </Button>
       </View>
 
-      {TambahHabitScreen?.length === 0 ? (
+      {habits?.length === 0 ? (
         <View>
           <Text>Tidak ada agenda hari ini, tambah agenda pertamamu!</Text>
         </View>
       ): (
-        TambahHabitScreen.map((habit, key) => <View> </View>
+        habits.map((habit, key) => (
+        <View key={key}>
+          <Text>
+            {habit.title}
+          </Text>
+          <Text>
+            {habit.description}
+          </Text>
+          <View>
+            <View>
+              {""}
+              <MaterialCommunityIcon name="fire" size={18} color="#ff9800 ">
+
+              </MaterialCommunityIcon>
+            </View>
+          </View>
+        </View>
       )}
     </View>
   );
