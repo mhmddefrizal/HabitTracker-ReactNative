@@ -116,6 +116,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 14,
   },
+  frequencyBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#2196f3",
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
   navButton: {
     width: 100,
     height: 20,
