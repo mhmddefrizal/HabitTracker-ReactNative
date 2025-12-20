@@ -3,6 +3,7 @@ import { Link } from "expo-router";
 import { Text, View, StyleSheet } from "react-native";
 import { Button, Card, Surface } from "react-native-paper";
 import TambahHabitScreen from "./tambah-habit";
+import CardTitle from "react-native-paper/lib/typescript/components/Card/CardTitle";
 
 export default function Index() {
   // buat variabel signOut dari useAuth
@@ -81,7 +82,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  }
+  },
+  cardContent: {
+    padding: 22,
+  },
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 4,
+    color: "#22223b",
+  },
 
   navButton: {
     width: 100,
