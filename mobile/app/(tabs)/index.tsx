@@ -1,7 +1,7 @@
 import { useAuth } from "@/lib/auth-context";
 import { Link } from "expo-router";
 import { Text, View, StyleSheet } from "react-native";
-import { Button, Surface } from "react-native-paper";
+import { Button, Card, Surface } from "react-native-paper";
 import TambahHabitScreen from "./tambah-habit";
 
 export default function Index() {
@@ -67,7 +67,20 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   title: {
-    
+    fontWeight: "bold",
+  },
+  card: {
+    marginBottom: 18,
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   }
 
   navButton: {
