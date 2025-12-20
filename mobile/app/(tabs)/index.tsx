@@ -117,11 +117,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   frequencyBadge: {
-    flexDirection: "row",
-    alignItems: "center",
     backgroundColor: "#2196f3",
     borderRadius: 12,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     paddingVertical: 4,
   },
   frequencyText: {
