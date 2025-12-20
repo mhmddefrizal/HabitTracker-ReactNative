@@ -14,8 +14,6 @@ export default function Index() {
   const [habits, setHabits] = useState<Habit[]>();
 
   useEffect(() => {
-    fetchHabits();
-
     const channel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`
     const habitsSubsription = client.subscribe(
       channel,
@@ -31,6 +29,12 @@ export default function Index() {
     );
   }
   );
+  fetchHabits();
+
+  return () => {
+    habitsSubsription();
+  }
+
 }, [user]);
 
 return (
