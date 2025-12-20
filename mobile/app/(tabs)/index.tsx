@@ -14,7 +14,7 @@ export default function Index() {
 
   const [habits, setHabits] = useState<Habit[]>();
 
-  const swipeableRef = useRef<{[key: string]: Swipeable | null}>({});
+  const swipeableRef = useRef<{ [key: string]: Swipeable | null }>({});
 
   useEffect(() => {
     if (user) {
@@ -57,37 +57,40 @@ export default function Index() {
           </View>
         ) : (
           habits.map((habit, key) => (
-            <Swipeable ref={(ref)=>{
-              swipeableRef.current{habit.$id}=ref
+            <Swipeable ref={(ref) => {
+              swipeableRef.current{ habit.$id }=ref;
+        key={key}
+        overshootLeft={false}
+        overshootRight={false}
             }}>
-              <Surface style={styles.card} elevation={0}>
-                <View key={key} style={styles.cardContent}>
-                  <Text style={styles.cardTitle}>
-                    {habit.title}
-                  </Text>
-                  <Text style={styles.cardDescription}>
-                    {habit.description}
-                  </Text>
-                  <View style={styles.cardFooter}>
-                    <View style={styles.streakBadge}>
-                      <MaterialCommunityIcon name="fire" size={18} color="#ff9800 ">
+        <Surface style={styles.card} elevation={0}>
+          <View key={key} style={styles.cardContent}>
+            <Text style={styles.cardTitle}>
+              {habit.title}
+            </Text>
+            <Text style={styles.cardDescription}>
+              {habit.description}
+            </Text>
+            <View style={styles.cardFooter}>
+              <View style={styles.streakBadge}>
+                <MaterialCommunityIcon name="fire" size={18} color="#ff9800 ">
 
-                      </MaterialCommunityIcon>
-                      <Text style={styles.streakText}>
-                        {habit.streak_count} rentetan hari
-                      </Text>
-                    </View>
-                    <View style={styles.frequencyBadge}>
-                      <Text style={styles.frequencyText}>{habit.frequency.charAt(0).toUpperCase() + habit.frequency.slice(1)}</Text>
-                    </View>
-                  </View>
-                </View>
-              </Surface>
-            </Swipeable>
-          ))
+                </MaterialCommunityIcon>
+                <Text style={styles.streakText}>
+                  {habit.streak_count} rentetan hari
+                </Text>
+              </View>
+              <View style={styles.frequencyBadge}>
+                <Text style={styles.frequencyText}>{habit.frequency.charAt(0).toUpperCase() + habit.frequency.slice(1)}</Text>
+              </View>
+            </View>
+          </View>
+        </Surface>
+      </Swipeable>
+      ))
         )}
-      </ScrollView>
-    </View>
+    </ScrollView>
+    </View >
   );
 }
 
