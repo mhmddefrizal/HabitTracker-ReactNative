@@ -124,6 +124,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
+  frequencyText: {
+    marginLeft: 8,
+    color: "#7c4dff",
+    fontWeight: "bold",
+    fontSize: 14,
+  },
   navButton: {
     width: 100,
     height: 20,
