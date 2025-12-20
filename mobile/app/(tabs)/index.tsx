@@ -96,6 +96,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 15,
     color: "#6c6c80",
+  },
+  cardFooter: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   }
 
   navButton: {
