@@ -17,6 +17,9 @@ export default function Index() {
     fetchHabits();
 
     const habitsSubsription = client.subscribe(`databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`)
+    (response: RealtimeResponse) => {
+      
+    }
   }, [user]);
 
   return (
