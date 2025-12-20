@@ -8,9 +8,9 @@ export default function Index() {
   // buat variabel signOut dari useAuth
   const { signOut } = useAuth();
   return (
-    <View style={styles.view}>
-      <View>
-        <Text>Agenda Hari Ini</Text>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Agenda Hari Ini</Text>
         <Text>Lorem ipsum dolor sit amet.</Text>
         <Button mode="text" onPress={signOut} icon={"logout"}>
           {" "}
@@ -19,24 +19,29 @@ export default function Index() {
       </View>
 
       {habits?.length === 0 ? (
-        <View>
-          <Text>Tidak ada agenda hari ini, tambah agenda pertamamu!</Text>
+        <View style={styles.emptyState}>
+          <Text style={styles.emptyStateText}>Tidak ada agenda hari ini, tambah agenda pertamamu!</Text>
         </View>
       ): (
         habits.map((habit, key) => (
-        <View key={key}>
-          <Text>
+        <View key={key} style={styles.cardContent}>
+          <Text style={styles.cardTitle}>
             {habit.title}
           </Text>
-          <Text>
+          <Text style={styles.cardDescription}>
             {habit.description}
           </Text>
-          <View>
-            <View>
-              {""}
+          <View style={styles.cardFooter}>
+            <View style={styles.streakBadge}>
               <MaterialCommunityIcon name="fire" size={18} color="#ff9800 ">
 
               </MaterialCommunityIcon>
+              <Text style={styles.streakText}>
+                {habit.streak_count} rentetan hari
+              </Text>
+            </View>
+            <View style={styles.frequencyBadge}>
+              <Text style={styles.frequencyText}>{habit.frequency.charAt(0).toUpperCase() + habit.frequency.slice(1)}</Text>
             </View>
           </View>
         </View>
