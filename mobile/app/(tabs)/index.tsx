@@ -1,7 +1,7 @@
 import { useAuth } from "@/lib/auth-context";
 import { Link } from "expo-router";
 import { Text, View, StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, Surface } from "react-native-paper";
 import TambahHabitScreen from "./tambah-habit";
 
 export default function Index() {
@@ -22,40 +22,54 @@ export default function Index() {
         <View style={styles.emptyState}>
           <Text style={styles.emptyStateText}>Tidak ada agenda hari ini, tambah agenda pertamamu!</Text>
         </View>
-      ): (
+      ) : (
         habits.map((habit, key) => (
-        <View key={key} style={styles.cardContent}>
-          <Text style={styles.cardTitle}>
-            {habit.title}
-          </Text>
-          <Text style={styles.cardDescription}>
-            {habit.description}
-          </Text>
-          <View style={styles.cardFooter}>
-            <View style={styles.streakBadge}>
-              <MaterialCommunityIcon name="fire" size={18} color="#ff9800 ">
-
-              </MaterialCommunityIcon>
-              <Text style={styles.streakText}>
-                {habit.streak_count} rentetan hari
+          <Surface style={styles.card} elevation={0}>
+            <View key={key} style={styles.cardContent}>
+              <Text style={styles.cardTitle}>
+                {habit.title}
               </Text>
+              <Text style={styles.cardDescription}>
+                {habit.description}
+              </Text>
+              <View style={styles.cardFooter}>
+                <View style={styles.streakBadge}>
+                  <MaterialCommunityIcon name="fire" size={18} color="#ff9800 ">
+
+                  </MaterialCommunityIcon>
+                  <Text style={styles.streakText}>
+                    {habit.streak_count} rentetan hari
+                  </Text>
+                </View>
+                <View style={styles.frequencyBadge}>
+                  <Text style={styles.frequencyText}>{habit.frequency.charAt(0).toUpperCase() + habit.frequency.slice(1)}</Text>
+                </View>
+              </View>
             </View>
-            <View style={styles.frequencyBadge}>
-              <Text style={styles.frequencyText}>{habit.frequency.charAt(0).toUpperCase() + habit.frequency.slice(1)}</Text>
-            </View>
-          </View>
-        </View>
-      )}
+          </Surface>
+        ))
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  view: {
+  container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    padding: 16,
+    backgroundColor: "#f5f5f5",
+    // justifyContent: "center",
+    // alignItems: "center",
   },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 24,
+  },
+  title: {
+    
+  }
+
   navButton: {
     width: 100,
     height: 20,
