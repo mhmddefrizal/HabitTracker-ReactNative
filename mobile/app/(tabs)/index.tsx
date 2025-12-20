@@ -133,6 +133,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  emptyStateText: {
+    color: "#a51c31",
+  },
   navButton: {
     width: 100,
     height: 20,
