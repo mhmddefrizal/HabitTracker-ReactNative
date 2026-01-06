@@ -7,13 +7,17 @@ import CardTitle from "react-native-paper/lib/typescript/components/Card/CardTit
 import { useEffect } from "react";
 import { client } from "@/lib/appwrite";
 import { Swipeable } from "react-native-gesture-handler";
-import { Databases } from "react-native-appwrite";
+import { Databases, Query } from "react-native-appwrite";
 
 export default function Index() {
   // buat variabel signOut dari useAuth
   const { signOut, user } = useAuth();
 
+  // buat variabel habits
   const [habits, setHabits] = useState<Habit[]>();
+
+  // buat variabel CompleteHabits
+  const [CompleteHabits, setCompleteHabits] = useState<Habit[]>();
 
   const swipeableRef = useRef<{ [key: string]: Swipeable | null }>({});
 
@@ -45,6 +49,22 @@ export default function Index() {
     // panggil Databases.listDocuments
     try {
       const response = await Databases.listDocuments(DATABASE_ID, HABITS_COLLECTION_ID, [Query.equal("user_id", user?.$id ?? "")]);
+      setHabits(response.documents as Habit[]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+  // buat fungsi fetchTodayCompletion
+  const fetchTodayCompletion = async () => {
+    try {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const response = await Databases.listDocuments(DATABASE_ID, COMPLETIONS_COLLECTION_ID,
+         [Query.equal("user_id", user?.$id ?? ""),
+          Query.greaterThanEqual("completed_at", today.toISOString())
+         ]);
       setHabits(response.documents as Habit[]);
     } catch (error) {
       console.error(error);
