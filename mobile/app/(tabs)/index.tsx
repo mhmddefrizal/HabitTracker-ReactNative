@@ -40,6 +40,17 @@ export default function Index() {
     }
   }, [user]);
 
+  // buat fungsi fetchHabits
+  const fetchHabits = async () => {
+    // panggil Databases.listDocuments
+    try {
+      const response = await Databases.listDocuments(DATABASE_ID, HABITS_COLLECTION_ID, [Query.equal("user_id", user?.$id ?? "")]);
+      setHabits(response.documents as Habit[]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // buat fungsi DeleteHabit
   const handleDeleteHabit = async (id: string) => {
     // panggil Databases.deleteDocument
