@@ -61,17 +61,44 @@ export default function Index() {
     }
   };
 
+  // buat fungsi CompleteHabit
+  const handleCompleteHabit = async (id: string) => {
+    if (!user) return;
+    // panggil Databases.createDocument
+    try {
+      const currentDate = new Date().toISOString();
+      await Databases.createDocument(DATABASE_ID, COMPLETIONS_COLLECTION_ID, ID.unique(), {
+        habit_id: id,
+        user_id: user.$id,
+        completed_at: currentDate,
+      });
+
+      // panggil Databases.getDocument
+      const habit = habits.find((h) => h.$id === id);
+      if (!habit) return;
+
+      // panggil Databases.updateDocument
+      await Databases.updateDocument(DATABASE_ID, HABITS_COLLECTION_ID, id, {
+        streak_count: (habit.streak_count ?? 0) + 1,
+        last_completed_at: currentDate,
+      })
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   // buat fungsi fetchHabits untuk mendapatkan data agenda
   const renderRightActions = () => (
     // buat swipe action
     <View style={styles.swipeActionRight}>
-      <MaterialComunityIcons name="check-circle-outline" size={32} color="white"/>
+      <MaterialComunityIcons name="check-circle-outline" size={32} color="white" />
     </View>
   )
   const renderLeftActions = () => (
     // buat swipe action
-    <View  style={styles.swipeActionLeft}>
-      <MaterialComunityIcons name="trash-can-outline" size={32} color="white"/>
+    <View style={styles.swipeActionLeft}>
+      <MaterialComunityIcons name="trash-can-outline" size={32} color="white" />
     </View>
   )
 
@@ -96,19 +123,18 @@ export default function Index() {
             <Swipeable ref={(ref) => {
               swipeableRef.current{ habit.$id }=ref;
             }}
-              key={key}
-              overshootLeft={false}
-              overshootRight={false}
-              renderRightActions={renderRightActions}
-              renderLeftActions={renderLeftActions}
-              onswipeableOpen={(direction) => 
-              {
-                if (direction === "right") {
-                  handleDeleteHabit(habit.$id);
-                }
+        key={key}
+        overshootLeft={false}
+        overshootRight={false}
+        renderRightActions={renderRightActions}
+        renderLeftActions={renderLeftActions}
+        onswipeableOpen={(direction) => {
+          if (direction === "right") {
+            handleDeleteHabit(habit.$id);
+          }
 
-                swipeableRef.current[habit.$id]?.close();
-              }}
+          swipeableRef.current[habit.$id]?.close();
+        }}
             >
         <Surface style={styles.card} elevation={0}>
           <View key={key} style={styles.cardContent}>
