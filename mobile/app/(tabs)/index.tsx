@@ -39,6 +39,10 @@ export default function Index() {
     }
   }, [user]);
 
+  // buat fungsi fetchHabits untuk mendapatkan data agenda
+  const renderRightActions = () => {};
+  const renderLeftActions = () => {};
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
