@@ -107,9 +107,12 @@ export default function Index() {
     }
   };
 
+  // buat fungsi isHabitComplete
+  const isHabitComplete = (habitId: string) =>
+    completedHabits?.includes(habitId);
 
   // buat fungsi fetchHabits untuk mendapatkan data agenda
-  const renderRightActions = () => (
+  const renderRightActions = (habitId: string) => (
     // buat swipe action
     <View style={styles.swipeActionRight}>
       <MaterialComunityIcons name="check-circle-outline" size={32} color="white" />
@@ -146,7 +149,7 @@ export default function Index() {
         key={key}
         overshootLeft={false}
         overshootRight={false}
-        renderRightActions={renderRightActions}
+        renderRightActions={() => renderRightActions(habits.$id)}
         renderLeftActions={renderLeftActions}
         onswipeableOpen={(direction) => {
 
@@ -160,7 +163,7 @@ export default function Index() {
           swipeableRef.current[habit.$id]?.close();
         }}
             >
-        <Surface style={styles.card} elevation={0}>
+        <Surface style={{styles.card, isHabitComplete(habit.$id) && styles.cardCompleted}} elevation={0}>
           <View key={key} style={styles.cardContent}>
             <Text style={styles.cardTitle}>
               {habit.title}
@@ -220,6 +223,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  cardCompleted: {
+    opacity: 0.5,
   },
   cardContent: {
     padding: 22,
