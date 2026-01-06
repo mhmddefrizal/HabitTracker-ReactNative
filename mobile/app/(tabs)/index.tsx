@@ -129,8 +129,12 @@ export default function Index() {
         renderRightActions={renderRightActions}
         renderLeftActions={renderLeftActions}
         onswipeableOpen={(direction) => {
+
+          // buat swipe action
           if (direction === "right") {
             handleDeleteHabit(habit.$id);
+          } else if (direction === "left") {
+            handleCompleteHabit(habit.$id);
           }
 
           swipeableRef.current[habit.$id]?.close();
