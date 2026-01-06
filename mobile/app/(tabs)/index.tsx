@@ -37,9 +37,11 @@ export default function Index() {
         }
       );
       fetchHabits();
+      fetchTodayCompletions();  
 
       return () => {
         habitsSubsription();
+        completionsSubsription();
       }
     }
   }, [user]);

@@ -1,6 +1,7 @@
 import { useAuth } from "@/lib/auth-context";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import { Databases, Query } from "react-native-appwrite";
 
 export default function StreaksScreen() {
 
@@ -15,24 +16,8 @@ export default function StreaksScreen() {
 
   useEffect(() => {
     if (user) {
-      const channel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`
-      const habitsSubsription = client.subscribe(
-        channel,
-        (response: RealtimeResponse) => {
-          if (response.events.includes('databases.*.collections.*.documents.*.create')) {
-            fetchHabits();
-          } else if (response.events.includes('databases.*.collections.*.documents.*.update')) {
-            fetchHabits();
-          } else if (response.events.includes('databases.*.collections.*.documents.*.delete')) {
-            fetchHabits();
-          }
-        }
-      );
       fetchHabits();
-
-      return () => {
-        habitsSubsription();
-      }
+      fetchCompletions();  
     }
   }, [user]);
 
@@ -48,16 +33,15 @@ export default function StreaksScreen() {
   };
 
 
-  // buat fungsi fetchTodayCompletion
-  const fetchTodayCompletion = async () => {
+  // buat fungsi fetchCompletion
+  const fetchCompletions = async () => {
     try {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
       const response = await Databases.listDocuments(DATABASE_ID, COMPLETIONS_COLLECTION_ID,
-        [Query.equal("user_id", user?.$id ?? ""),
-        Query.greaterThanEqual("completed_at", today.toISOString())
+        [
+          Query.equal("user_id", user?.$id ?? ""),
         ]);
-      setHabits(response.documents as Habit[]);
+        const completions = response.documents as HabitCompletion[];
+      setCompleteHabits(completions);
     } catch (error) {
       console.error(error);
     }
