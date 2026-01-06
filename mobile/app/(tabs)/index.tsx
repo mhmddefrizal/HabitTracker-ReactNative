@@ -95,6 +95,8 @@ export default function Index() {
                 if (direction === "right") {
                   handleDeleteHabit(habit.$id);
                 }
+
+                swipeableRef.current[habit.$id]?.close();
               }}
             >
         <Surface style={styles.card} elevation={0}>
