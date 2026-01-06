@@ -111,7 +111,7 @@ export default function Index() {
   const isHabitComplete = (habitId: string) =>
     completedHabits?.includes(habitId);
 
-  // buat fungsi fetchHabits untuk mendapatkan data agenda
+  // buat fungsi swipe ke kanan
   const renderRightActions = (habitId: string) => (
     // buat swipe action
     <View style={styles.swipeActionRight}>
@@ -123,6 +123,8 @@ export default function Index() {
       }
     </View>
   )
+
+  // buat fungsi swipe ke kiri
   const renderLeftActions = () => (
     // buat swipe action
     <View style={styles.swipeActionLeft}>
