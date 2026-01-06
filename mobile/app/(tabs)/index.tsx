@@ -62,9 +62,9 @@ export default function Index() {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const response = await Databases.listDocuments(DATABASE_ID, COMPLETIONS_COLLECTION_ID,
-         [Query.equal("user_id", user?.$id ?? ""),
-          Query.greaterThanEqual("completed_at", today.toISOString())
-         ]);
+        [Query.equal("user_id", user?.$id ?? ""),
+        Query.greaterThanEqual("completed_at", today.toISOString())
+        ]);
       setHabits(response.documents as Habit[]);
     } catch (error) {
       console.error(error);
@@ -115,7 +115,12 @@ export default function Index() {
   const renderRightActions = (habitId: string) => (
     // buat swipe action
     <View style={styles.swipeActionRight}>
-      <MaterialComunityIcons name="check-circle-outline" size={32} color="white" />
+      {isHabitComplete(habitId) ? (
+        <Text style={{ color: "white" }}>Selesai!</Text>
+        ) : (
+        <MaterialComunityIcons name="check-circle-outline" size={32} color="white" />
+        )
+      }
     </View>
   )
   const renderLeftActions = () => (
@@ -146,50 +151,51 @@ export default function Index() {
             <Swipeable ref={(ref) => {
               swipeableRef.current{ habit.$id }=ref;
             }}
-        key={key}
-        overshootLeft={false}
-        overshootRight={false}
-        renderRightActions={() => renderRightActions(habits.$id)}
-        renderLeftActions={renderLeftActions}
-        onswipeableOpen={(direction) => {
+              key={key}
+              overshootLeft={false}
+              overshootRight={false}
+              renderRightActions={() => renderRightActions(habits.$id)}
+              renderLeftActions={renderLeftActions}
+              onswipeableOpen={(direction) => {
 
-          // buat swipe action
-          if (direction === "right") {
-            handleDeleteHabit(habit.$id);
-          } else if (direction === "left") {
-            handleCompleteHabit(habit.$id);
-          }
+                // buat swipe action
+                if (direction === "right") {
+                  handleDeleteHabit(habit.$id);
+                } else if (direction === "left") {
+                  handleCompleteHabit(habit.$id);
+                }
 
-          swipeableRef.current[habit.$id]?.close();
-        }}
+                swipeableRef.current[habit.$id]?.close();
+              }}
             >
-        <Surface style={{styles.card, isHabitComplete(habit.$id) && styles.cardCompleted}} elevation={0}>
-          <View key={key} style={styles.cardContent}>
-            <Text style={styles.cardTitle}>
-              {habit.title}
-            </Text>
-            <Text style={styles.cardDescription}>
-              {habit.description}
-            </Text>
-            <View style={styles.cardFooter}>
-              <View style={styles.streakBadge}>
-                <MaterialCommunityIcon name="fire" size={18} color="#ff9800 ">
-
-                </MaterialCommunityIcon>
-                <Text style={styles.streakText}>
-                  {habit.streak_count} rentetan hari
+              <Surface style={{ styles.card, isHabitComplete(habit.$id) && styles.cardCompleted}} elevation={0}>
+              <View key={key} style={styles.cardContent}>
+                <Text style={styles.cardTitle}>
+                  {habit.title}
                 </Text>
+                <Text style={styles.cardDescription}>
+                  {habit.description}
+                </Text>
+                <View style={styles.cardFooter}>
+                  <View style={styles.streakBadge}>
+                    <MaterialCommunityIcon name="fire" size={18} color="#ff9800 ">
+
+                    </MaterialCommunityIcon>
+                    <Text style={styles.streakText}>
+                      {habit.streak_count} rentetan hari
+                    </Text>
+                  </View>
+                  <View style={styles.frequencyBadge}>
+                    <Text style={styles.frequencyText}>{habit.frequency.charAt(0).toUpperCase() + habit.frequency.slice(1)}</Text>
+                  </View>
+                </View>
               </View>
-              <View style={styles.frequencyBadge}>
-                <Text style={styles.frequencyText}>{habit.frequency.charAt(0).toUpperCase() + habit.frequency.slice(1)}</Text>
-              </View>
-            </View>
-          </View>
-        </Surface>
-      </Swipeable>
+            </Surface>
+    </Swipeable>
       ))
-        )}
-    </ScrollView>
+      )
+}
+    </ScrollView >
     </View >
   );
 }
