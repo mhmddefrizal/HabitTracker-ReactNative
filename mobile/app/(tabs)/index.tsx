@@ -7,6 +7,7 @@ import CardTitle from "react-native-paper/lib/typescript/components/Card/CardTit
 import { useEffect } from "react";
 import { client } from "@/lib/appwrite";
 import { Swipeable } from "react-native-gesture-handler";
+import { Databases } from "react-native-appwrite";
 
 export default function Index() {
   // buat variabel signOut dari useAuth
@@ -38,6 +39,16 @@ export default function Index() {
       }
     }
   }, [user]);
+
+  // buat fungsi DeleteHabit
+  const handleDeleteHabit = async (id: string) => {
+    // panggil Databases.deleteDocument
+    try {
+      await Databases.deleteDocument(DATABASE_ID, HABITS_COLLECTION_ID, id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // buat fungsi fetchHabits untuk mendapatkan data agenda
   const renderRightActions = () => (
@@ -79,6 +90,12 @@ export default function Index() {
               overshootRight={false}
               renderRightActions={renderRightActions}
               renderLeftActions={renderLeftActions}
+              onswipeableOpen={(direction) => 
+              {
+                if (direction === "right") {
+                  handleDeleteHabit(habit.$id);
+                }
+              }}
             >
         <Surface style={styles.card} elevation={0}>
           <View key={key} style={styles.cardContent}>
