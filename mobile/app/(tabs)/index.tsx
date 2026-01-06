@@ -40,8 +40,18 @@ export default function Index() {
   }, [user]);
 
   // buat fungsi fetchHabits untuk mendapatkan data agenda
-  const renderRightActions = () => {};
-  const renderLeftActions = () => {};
+  const renderRightActions = () => (
+    // buat swipe action
+    <View style={styles.swipeActionRight}>
+      <MaterialComunityIcons name="check-circle-outline" size={32} color="white"/>
+    </View>
+  )
+  const renderLeftActions = () => (
+    // buat swipe action
+    <View  style={styles.swipeActionLeft}>
+      <MaterialComunityIcons name="trash-can-outline" size={32} color="white"/>
+    </View>
+  )
 
   return (
     <View style={styles.container}>
@@ -190,5 +200,25 @@ const styles = StyleSheet.create({
     backgroundColor: "coral",
     borderRadius: 8,
     textAlign: "center",
+  },
+  swipeActionLeft: {
+    flex: 1,
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    borderRadius: 18,
+    marginBottom: 18,
+    marginTop: 2,
+    marginLeft: 16,
+  },
+  swipeActionRight: {
+    flex: 1,
+    backgroundColor: "green",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    borderRadius: 18,
+    marginBottom: 18,
+    marginTop: 2,
+    marginRight: 16,
   },
 });
