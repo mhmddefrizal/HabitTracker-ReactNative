@@ -42,6 +42,12 @@ export default function StreaksScreen() {
     }
   };
 
+  interface StreakData {
+    streak: number;
+    bestStreak: number;
+    total: number;
+  }
+
   const getStreakData = (habitId: string) => {
     const habitCompletions = CompleteHabits?.filter((c) => c.habit_id === habitId).sort((a, b) => new Date(a.completed_at).getTime() - new Date(b.completed_at).getTime());
 
