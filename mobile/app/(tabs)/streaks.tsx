@@ -4,20 +4,19 @@ import { Text, View } from "react-native";
 import { Databases, Query } from "react-native-appwrite";
 
 export default function StreaksScreen() {
-
-    // buat variabel habits
+  // buat variabel habits
   const [habits, setHabits] = useState<Habit[]>();
 
   // buat variabel CompleteHabits
   const [CompleteHabits, setCompleteHabits] = useState<HabitCompletion[]>();
 
   // buat variabel user
-  const {user} = useAuth(); 
+  const { user } = useAuth();
 
   useEffect(() => {
     if (user) {
       fetchHabits();
-      fetchCompletions();  
+      fetchCompletions();
     }
   }, [user]);
 
@@ -32,20 +31,20 @@ export default function StreaksScreen() {
     }
   };
 
-
   // buat fungsi fetchCompletion
   const fetchCompletions = async () => {
     try {
-      const response = await Databases.listDocuments(DATABASE_ID, COMPLETIONS_COLLECTION_ID,
-        [
-          Query.equal("user_id", user?.$id ?? ""),
-        ]);
-        const completions = response.documents as HabitCompletion[];
+      const response = await Databases.listDocuments(DATABASE_ID, COMPLETIONS_COLLECTION_ID, [Query.equal("user_id", user?.$id ?? "")]);
+      const completions = response.documents as HabitCompletion[];
       setCompleteHabits(completions);
     } catch (error) {
       console.error(error);
     }
   };
+
+  const getStreakData = (habitId: string) => {};
+
+
 
 
   return (
