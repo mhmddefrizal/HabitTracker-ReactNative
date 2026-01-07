@@ -87,6 +87,8 @@ export default function StreaksScreen() {
     return { habit, streak, bestStreak, total };
   });
 
+  const rankedHabits = habitStreaks.sort((a, b) => a.bestStreak - b.bestStreak);
+
 
   return (
     <View>
