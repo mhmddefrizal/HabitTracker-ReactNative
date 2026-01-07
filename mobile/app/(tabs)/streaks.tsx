@@ -59,6 +59,9 @@ export default function StreaksScreen() {
   let bestStreak = 0;
   let total = habitCompletions?.length ;
 
+  let lastDate: Date | null = null;
+  let currentStreak = 0;
+
   return {streak: 0, bestStreak: 0, total: 0}
 };
 
