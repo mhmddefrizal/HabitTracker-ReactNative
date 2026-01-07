@@ -1,6 +1,8 @@
+import { DATABASE_ID, databases, HABITS_TABLE_ID } from "@/lib/appwrite";
 import { useAuth } from "@/lib/auth-context";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { ID } from "react-native-appwrite";
 import { Button, SegmentedButtons, TextInput } from "react-native-paper";
 
 const FREQUENCIES = ["harian", "mingguan", "bulanan"];
@@ -13,6 +15,16 @@ export default function TambahHabitScreen() {
 
   const handleSubmit = async () => {
     if (!user) return;
+
+    await databases.createDocument(DATABASE_ID, HABITS_TABLE_ID, ID.unique(), {
+      user_id: user.$id,
+      title,
+      description,
+      frequency,
+      streak_count: 0,
+      last_completed: new Date().toISOString(),
+      $createdAt: new Date().toISOString(),
+    });
   };
 
   return (
