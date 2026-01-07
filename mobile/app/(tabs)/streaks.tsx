@@ -62,6 +62,10 @@ export default function StreaksScreen() {
   let lastDate: Date | null = null;
   let currentStreak = 0;
 
+  habitCompletions?.forEach((c) => {
+    const date = new Date(c.completed_at);
+  })
+
   return {streak: 0, bestStreak: 0, total: 0}
 };
 
