@@ -88,6 +88,7 @@ export default function StreaksScreen() {
   });
 
   const rankedHabits = habitStreaks.sort((a, b) => a.bestStreak - b.bestStreak);
+  console.log(rankedHabits.map((h) => h.habit.title));
 
 
   return (
