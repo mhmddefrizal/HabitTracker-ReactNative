@@ -51,8 +51,16 @@ export default function StreaksScreen() {
   const getStreakData = (habitId: string): StreakData => {
     const habitCompletions = CompleteHabits?.filter((c) => c.habit_id === habitId).sort((a, b) => new Date(a.completed_at).getTime() - new Date(b.completed_at).getTime());
 
-    if (habitCompletions?.length === 0) return {streak: 0, bestStreak: 0, total: 0};
+    if (habitCompletions?.length === 0) {return {streak: 0, bestStreak: 0, total: 0};
   };
+
+  // buat
+  let streak = 0;
+  let bestStreak = 0;
+  let total = habitCompletions?.length ;
+
+  return {streak: 0, bestStreak: 0, total: 0}
+};
 
   return (
     <View>
