@@ -64,6 +64,9 @@ export default function StreaksScreen() {
 
   habitCompletions?.forEach((c) => {
     const date = new Date(c.completed_at);
+    if (lastDate ) {
+      const diff = (date.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24);
+    }
   })
 
   return {streak: 0, bestStreak: 0, total: 0}
