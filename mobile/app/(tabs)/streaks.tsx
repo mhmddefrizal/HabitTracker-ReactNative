@@ -5,10 +5,10 @@ import { Databases, Query } from "react-native-appwrite";
 
 export default function StreaksScreen() {
   // buat variabel habits
-  const [habits, setHabits] = useState<Habit[]>();
+  const [habits, setHabits] = useState<Habit[]>([]);
 
   // buat variabel CompleteHabits
-  const [CompleteHabits, setCompleteHabits] = useState<HabitCompletion[]>();
+  const [CompleteHabits, setCompleteHabits] = useState<HabitCompletion[]>([]);
 
   // buat variabel user
   const { user } = useAuth();
@@ -54,10 +54,10 @@ export default function StreaksScreen() {
     if (habitCompletions?.length === 0) {return {streak: 0, bestStreak: 0, total: 0};
   };
 
-  // buat
+  // buat 
   let streak = 0;
   let bestStreak = 0;
-  let total = habitCompletions?.length ;
+  let total = habitCompletions.length ;
 
   let lastDate: Date | null = null;
   let currentStreak = 0;
@@ -79,8 +79,14 @@ export default function StreaksScreen() {
     }
   })
 
-  return {streak: 0, bestStreak: 0, total: 0}
+  return {streak, bestStreak, total}
 };
+
+  const habitStreaks = habits.map((habit) => {
+    const {streak, bestStreak, total} = getStreakData(habit.$id);
+    return { habit, streak, bestStreak, total };
+  });
+
 
   return (
     <View>
