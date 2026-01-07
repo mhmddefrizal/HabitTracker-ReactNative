@@ -23,26 +23,23 @@ export default function Index() {
 
   useEffect(() => {
     if (user) {
-      const channel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`
-      const habitsSubsription = client.subscribe(
-        channel,
-        (response: RealtimeResponse) => {
-          if (response.events.includes('databases.*.collections.*.documents.*.create')) {
-            fetchHabits();
-          } else if (response.events.includes('databases.*.collections.*.documents.*.update')) {
-            fetchHabits();
-          } else if (response.events.includes('databases.*.collections.*.documents.*.delete')) {
-            fetchHabits();
-          }
+      const channel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`;
+      const habitsSubsription = client.subscribe(channel, (response: RealtimeResponse) => {
+        if (response.events.includes("databases.*.collections.*.documents.*.create")) {
+          fetchHabits();
+        } else if (response.events.includes("databases.*.collections.*.documents.*.update")) {
+          fetchHabits();
+        } else if (response.events.includes("databases.*.collections.*.documents.*.delete")) {
+          fetchHabits();
         }
-      );
+      });
       fetchHabits();
-      fetchTodayCompletions();  
+      fetchTodayCompletions();
 
       return () => {
         habitsSubsription();
         completionsSubsription();
-      }
+      };
     }
   }, [user]);
 
@@ -57,16 +54,12 @@ export default function Index() {
     }
   };
 
-
   // buat fungsi fetchTodayCompletion
   const fetchTodayCompletion = async () => {
     try {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      const response = await Databases.listDocuments(DATABASE_ID, COMPLETIONS_COLLECTION_ID,
-        [Query.equal("user_id", user?.$id ?? ""),
-        Query.greaterThanEqual("completed_at", today.toISOString())
-        ]);
+      const response = await Databases.listDocuments(DATABASE_ID, COMPLETIONS_COLLECTION_ID, [Query.equal("user_id", user?.$id ?? ""), Query.greaterThanEqual("completed_at", today.toISOString())]);
       setHabits(response.documents as Habit[]);
     } catch (error) {
       console.error(error);
@@ -103,28 +96,20 @@ export default function Index() {
       await Databases.updateDocument(DATABASE_ID, HABITS_COLLECTION_ID, id, {
         streak_count: (habit.streak_count ?? 0) + 1,
         last_completed_at: currentDate,
-      })
+      });
     } catch (error) {
       console.error(error);
     }
   };
 
   // buat fungsi isHabitComplete
-  const isHabitComplete = (habitId: string) =>
-    completedHabits?.includes(habitId);
+  const isHabitComplete = (habitId: string) => completedHabits?.includes(habitId);
 
   // buat fungsi swipe ke kanan
   const renderRightActions = (habitId: string) => (
     // buat swipe action
-    <View style={styles.swipeActionRight}>
-      {isHabitComplete(habitId) ? (
-        <Text style={{ color: "white" }}>Selesai!</Text>
-        ) : (
-        <MaterialComunityIcons name="check-circle-outline" size={32} color="white" />
-        )
-      }
-    </View>
-  )
+    <View style={styles.swipeActionRight}>{isHabitComplete(habitId) ? <Text style={{ color: "white" }}>Selesai!</Text> : <MaterialComunityIcons name="check-circle-outline" size={32} color="white" />}</View>
+  );
 
   // buat fungsi swipe ke kiri
   const renderLeftActions = () => (
@@ -132,7 +117,7 @@ export default function Index() {
     <View style={styles.swipeActionLeft}>
       <MaterialComunityIcons name="trash-can-outline" size={32} color="white" />
     </View>
-  )
+  );
 
   return (
     <View style={styles.container}>
@@ -152,16 +137,16 @@ export default function Index() {
           </View>
         ) : (
           habits.map((habit, key) => (
-            <Swipeable ref={(ref) => {
-              swipeableRef.current{ habit.$id }=ref;
-            }}
+            <Swipeable
+              ref={(ref) => {
+                swipeableRef.current[habit.$id] = ref;
+              }}
               key={key}
               overshootLeft={false}
               overshootRight={false}
               renderRightActions={() => renderRightActions(habits.$id)}
               renderLeftActions={renderLeftActions}
               onswipeableOpen={(direction) => {
-
                 // buat swipe action
                 if (direction === "right") {
                   handleDeleteHabit(habit.$id);
@@ -172,35 +157,26 @@ export default function Index() {
                 swipeableRef.current[habit.$id]?.close();
               }}
             >
-              <Surface style={{ styles.card, isHabitComplete(habit.$id) && styles.cardCompleted}} elevation={0}>
-              <View key={key} style={styles.cardContent}>
-                <Text style={styles.cardTitle}>
-                  {habit.title}
-                </Text>
-                <Text style={styles.cardDescription}>
-                  {habit.description}
-                </Text>
-                <View style={styles.cardFooter}>
-                  <View style={styles.streakBadge}>
-                    <MaterialCommunityIcon name="fire" size={18} color="#ff9800 ">
-
-                    </MaterialCommunityIcon>
-                    <Text style={styles.streakText}>
-                      {habit.streak_count} rentetan hari
-                    </Text>
-                  </View>
-                  <View style={styles.frequencyBadge}>
-                    <Text style={styles.frequencyText}>{habit.frequency.charAt(0).toUpperCase() + habit.frequency.slice(1)}</Text>
+              <Surface style={[styles.card, isHabitComplete(habit.$id) && styles.cardCompleted]} elevation={0}>
+                <View key={key} style={styles.cardContent}>
+                  <Text style={styles.cardTitle}>{habit.title}</Text>
+                  <Text style={styles.cardDescription}>{habit.description}</Text>
+                  <View style={styles.cardFooter}>
+                    <View style={styles.streakBadge}>
+                      <MaterialCommunityIcon name="fire" size={18} color="#ff9800 "></MaterialCommunityIcon>
+                      <Text style={styles.streakText}>{habit.streak_count} rentetan hari</Text>
+                    </View>
+                    <View style={styles.frequencyBadge}>
+                      <Text style={styles.frequencyText}>{habit.frequency.charAt(0).toUpperCase() + habit.frequency.slice(1)}</Text>
+                    </View>
                   </View>
                 </View>
-              </View>
-            </Surface>
-    </Swipeable>
-      ))
-      )
-}
-    </ScrollView >
-    </View >
+              </Surface>
+            </Swipeable>
+          ))
+        )}
+      </ScrollView>
+    </View>
   );
 }
 
