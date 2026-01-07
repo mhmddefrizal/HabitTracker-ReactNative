@@ -13,12 +13,9 @@ export default function TambahHabitScreen() {
             value: freq,
             label: freq.charAt(0).toUpperCase() + freq.slice(1),
           }))}
-          style={styles.segmentedButtons}
         />
       </View>
-      <Button mode="contained" style={styles.button}>
-        Tambah Habit
-      </Button>
+      <Button mode="contained">Tambah Habit</Button>
     </View>
   );
 }
@@ -31,5 +28,8 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
+  },
+  frequencyContainer: {
+    marginBottom: 24,
   },
 });
