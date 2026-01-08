@@ -1,5 +1,6 @@
 import { DATABASE_ID, databases, HABITS_TABLE_ID } from "@/lib/appwrite";
 import { useAuth } from "@/lib/auth-context";
+import { router, useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { ID } from "react-native-appwrite";
@@ -11,20 +12,30 @@ export default function TambahHabitScreen() {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [frequency, setFrequency] = useState<Frequency>("harian");
+  const [error, setError] = useState<string>("");
   const { user } = useAuth();
+  const router = useRouter();
 
   const handleSubmit = async () => {
     if (!user) return;
 
-    await databases.createDocument(DATABASE_ID, HABITS_TABLE_ID, ID.unique(), {
-      user_id: user.$id,
-      title,
-      description,
-      frequency,
-      streak_count: 0,
-      last_completed: new Date().toISOString(),
-      $createdAt: new Date().toISOString(),
-    });
+    try {
+      await databases.createDocument(DATABASE_ID, HABITS_TABLE_ID, ID.unique(), {
+        user_id: user.$id,
+        title,
+        description,
+        frequency,
+        streak_count: 0,
+        last_completed: new Date().toISOString(),
+        $createdAt: new Date().toISOString(),
+      });
+
+      router.back();
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      }
+    }
   };
 
   return (
