@@ -4,10 +4,11 @@ import { Text, View, StyleSheet, ScrollView } from "react-native";
 import { Button, Card, Surface } from "react-native-paper";
 import TambahHabitScreen from "./tambah-habit";
 import CardTitle from "react-native-paper/lib/typescript/components/Card/CardTitle";
-import { useEffect } from "react";
-import { client } from "@/lib/appwrite";
+import { useEffect, useRef, useState } from "react";
+import { client, DATABASE_ID, databases, HABITS_TABLE_ID } from "@/lib/appwrite";
 import { Swipeable } from "react-native-gesture-handler";
 import { Databases, Query } from "react-native-appwrite";
+import { Habit } from "@/types/database.type";
 
 export default function Index() {
   // buat variabel signOut dari useAuth
@@ -47,7 +48,7 @@ export default function Index() {
   const fetchHabits = async () => {
     // panggil Databases.listDocuments
     try {
-      const response = await Databases.listDocuments(DATABASE_ID, HABITS_COLLECTION_ID, [Query.equal("user_id", user?.$id ?? "")]);
+      const response = await databases.listDocuments(DATABASE_ID, HABITS_TABLE_ID, [Query.equal("user_id", user?.$id ?? "")]);
       setHabits(response.documents as Habit[]);
     } catch (error) {
       console.error(error);
@@ -125,8 +126,7 @@ export default function Index() {
         <Text style={styles.title}>Agenda Hari Ini</Text>
         <Text>Lorem ipsum dolor sit amet.</Text>
         <Button mode="text" onPress={signOut} icon={"logout"}>
-          {" "}
-          Keluar{" "}
+          Keluar
         </Button>
       </View>
 
