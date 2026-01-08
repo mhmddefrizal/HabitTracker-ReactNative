@@ -2,9 +2,9 @@ import { DATABASE_ID, databases, HABITS_TABLE_ID } from "@/lib/appwrite";
 import { useAuth } from "@/lib/auth-context";
 import { router, useRouter } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ID } from "react-native-appwrite";
-import { Button, SegmentedButtons, TextInput } from "react-native-paper";
+import { Button, SegmentedButtons, TextInput, useTheme, Text } from "react-native-paper";
 
 const FREQUENCIES = ["harian", "mingguan", "bulanan"];
 type Frequency = (typeof FREQUENCIES)[number];
@@ -15,6 +15,7 @@ export default function TambahHabitScreen() {
   const [error, setError] = useState<string>("");
   const { user } = useAuth();
   const router = useRouter();
+  const theme = useTheme();
 
   const handleSubmit = async () => {
     if (!user) return;
@@ -34,7 +35,9 @@ export default function TambahHabitScreen() {
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
+        return;
       }
+      setError("Terjadi kesalahan saat menambahkan habit.");
     }
   };
 
@@ -55,6 +58,7 @@ export default function TambahHabitScreen() {
       <Button mode="contained" onPress={handleSubmit} disabled={!title || !description}>
         Tambah Habit
       </Button>
+      {error && <Text style={{ color: theme.colors.error }}>{error}</Text>}
     </View>
   );
 }
