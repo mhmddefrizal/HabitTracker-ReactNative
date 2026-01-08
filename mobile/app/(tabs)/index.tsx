@@ -1,6 +1,7 @@
 import { useAuth } from "@/lib/auth-context";
 import { Link } from "expo-router";
 import { View, StyleSheet, ScrollView } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Button, Text, Card, Surface } from "react-native-paper";
 import TambahHabitScreen from "./tambah-habit";
 import CardTitle from "react-native-paper/lib/typescript/components/Card/CardTitle";
@@ -109,14 +110,14 @@ export default function Index() {
   // buat fungsi swipe ke kanan
   const renderRightActions = (habitId: string) => (
     // buat swipe action
-    <View style={styles.swipeActionRight}>{isHabitComplete(habitId) ? <Text style={{ color: "white" }}>Selesai!</Text> : <MaterialComunityIcons name="check-circle-outline" size={32} color="white" />}</View>
+    <View style={styles.swipeActionRight}>{isHabitComplete(habitId) ? <Text style={{ color: "white" }}>Selesai!</Text> : <MaterialCommunityIcons name="check-circle-outline" size={32} color="white" />}</View>
   );
 
   // buat fungsi swipe ke kiri
   const renderLeftActions = () => (
     // buat swipe action
     <View style={styles.swipeActionLeft}>
-      <MaterialComunityIcons name="trash-can-outline" size={32} color="white" />
+      <MaterialCommunityIcons name="trash-can-outline" size={32} color="white" />
     </View>
   );
 
@@ -163,7 +164,7 @@ export default function Index() {
                   <Text style={styles.cardDescription}>{habit.description}</Text>
                   <View style={styles.cardFooter}>
                     <View style={styles.streakBadge}>
-                      <MaterialCommunityIcon name="fire" size={18} color="#ff9800 "></MaterialCommunityIcon>
+                      <MaterialCommunityIcons name="fire" size={18} color="#ff9800" />
                       <Text style={styles.streakText}>{habit.streak_count} rentetan hari</Text>
                     </View>
                     <View style={styles.frequencyBadge}>
