@@ -1,4 +1,6 @@
+import { DATABASE_ID, databases, HABITS_TABLE_ID } from "@/lib/appwrite";
 import { useAuth } from "@/lib/auth-context";
+import { Habit } from "@/types/database.type";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { Databases, Query } from "react-native-appwrite";
@@ -24,7 +26,7 @@ export default function StreaksScreen() {
   const fetchHabits = async () => {
     // panggil Databases.listDocuments
     try {
-      const response = await Databases.listDocuments(DATABASE_ID, HABITS_COLLECTION_ID, [Query.equal("user_id", user?.$id ?? "")]);
+      const response = await databases.listDocuments(DATABASE_ID, HABITS_TABLE_ID, [Query.equal("user_id", user?.$id ?? "")]);
       setHabits(response.documents as Habit[]);
     } catch (error) {
       console.error(error);

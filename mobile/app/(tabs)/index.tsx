@@ -1,13 +1,13 @@
 import { useAuth } from "@/lib/auth-context";
 import { Link } from "expo-router";
-import { Text, View, StyleSheet, ScrollView } from "react-native";
-import { Button, Card, Surface } from "react-native-paper";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { Button, Text, Card, Surface } from "react-native-paper";
 import TambahHabitScreen from "./tambah-habit";
 import CardTitle from "react-native-paper/lib/typescript/components/Card/CardTitle";
 import { useEffect, useRef, useState } from "react";
 import { client, DATABASE_ID, databases, HABITS_TABLE_ID } from "@/lib/appwrite";
 import { Swipeable } from "react-native-gesture-handler";
-import { Databases, Query } from "react-native-appwrite";
+import { Databases, Query, RealtimeResponseEvent } from "react-native-appwrite";
 import { Habit } from "@/types/database.type";
 
 export default function Index() {
@@ -15,17 +15,17 @@ export default function Index() {
   const { signOut, user } = useAuth();
 
   // buat variabel habits
-  const [habits, setHabits] = useState<Habit[]>();
+  const [habits, setHabits] = useState<Habit[]>([]);
 
   // buat variabel CompleteHabits
-  const [CompleteHabits, setCompleteHabits] = useState<Habit[]>();
+  const [CompleteHabits, setCompleteHabits] = useState<Habit[]>([]);
 
   const swipeableRef = useRef<{ [key: string]: Swipeable | null }>({});
 
   useEffect(() => {
     if (user) {
-      const channel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`;
-      const habitsSubsription = client.subscribe(channel, (response: RealtimeResponse) => {
+      const channel = `databases.${DATABASE_ID}.collections.${HABITS_TABLE_ID}.documents`;
+      const habitsSubsription = client.subscribe(channel, (response: RealtimeResponseEvent<Habit>) => {
         if (response.events.includes("databases.*.collections.*.documents.*.create")) {
           fetchHabits();
         } else if (response.events.includes("databases.*.collections.*.documents.*.update")) {
@@ -35,7 +35,7 @@ export default function Index() {
         }
       });
       fetchHabits();
-      fetchTodayCompletions();
+      fetchTodayCompletion();
 
       return () => {
         habitsSubsription();
@@ -60,7 +60,7 @@ export default function Index() {
     try {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      const response = await Databases.listDocuments(DATABASE_ID, COMPLETIONS_COLLECTION_ID, [Query.equal("user_id", user?.$id ?? ""), Query.greaterThanEqual("completed_at", today.toISOString())]);
+      const response = await databases.listDocuments(DATABASE_ID, COMPLETIONS_COLLECTION_ID, [Query.equal("user_id", user?.$id ?? ""), Query.greaterThanEqual("completed_at", today.toISOString())]);
       setHabits(response.documents as Habit[]);
     } catch (error) {
       console.error(error);
@@ -71,7 +71,7 @@ export default function Index() {
   const handleDeleteHabit = async (id: string) => {
     // panggil Databases.deleteDocument
     try {
-      await Databases.deleteDocument(DATABASE_ID, HABITS_COLLECTION_ID, id);
+      await databases.deleteDocument(DATABASE_ID, HABITS_TABLE_ID, id);
     } catch (error) {
       console.error(error);
     }
@@ -83,7 +83,7 @@ export default function Index() {
     // panggil Databases.createDocument
     try {
       const currentDate = new Date().toISOString();
-      await Databases.createDocument(DATABASE_ID, COMPLETIONS_COLLECTION_ID, ID.unique(), {
+      await databases.createDocument(DATABASE_ID, COMPLETIONS_COLLECTION_ID, ID.unique(), {
         habit_id: id,
         user_id: user.$id,
         completed_at: currentDate,
@@ -94,7 +94,7 @@ export default function Index() {
       if (!habit) return;
 
       // panggil Databases.updateDocument
-      await Databases.updateDocument(DATABASE_ID, HABITS_COLLECTION_ID, id, {
+      await databases.updateDocument(DATABASE_ID, HABITS_TABLE_ID, id, {
         streak_count: (habit.streak_count ?? 0) + 1,
         last_completed_at: currentDate,
       });
@@ -123,7 +123,7 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Agenda Hari Ini</Text>
+        <Text style={styles.title}>Habit Hari Ini</Text>
         <Text>Lorem ipsum dolor sit amet.</Text>
         <Button mode="text" onPress={signOut} icon={"logout"}>
           Keluar
@@ -133,7 +133,7 @@ export default function Index() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {habits?.length === 0 ? (
           <View style={styles.emptyState}>
-            <Text style={styles.emptyStateText}>Tidak ada agenda hari ini, tambah agenda pertamamu!</Text>
+            <Text style={styles.emptyStateText}>Tidak ada habit hari ini, tambah habit pertamamu!</Text>
           </View>
         ) : (
           habits.map((habit, key) => (
