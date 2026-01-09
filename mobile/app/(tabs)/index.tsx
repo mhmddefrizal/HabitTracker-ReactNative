@@ -6,10 +6,10 @@ import { Button, Text, Card, Surface } from "react-native-paper";
 import TambahHabitScreen from "./tambah-habit";
 import CardTitle from "react-native-paper/lib/typescript/components/Card/CardTitle";
 import { useEffect, useRef, useState } from "react";
-import { client, DATABASE_ID, databases, HABITS_TABLE_ID } from "@/lib/appwrite";
+import { client, COMPLETIONS_TABLE_ID, DATABASE_ID, databases, HABITS_TABLE_ID } from "@/lib/appwrite";
 import { Swipeable } from "react-native-gesture-handler";
-import { Databases, Query, RealtimeResponseEvent } from "react-native-appwrite";
-import { Habit } from "@/types/database.type";
+import { Databases, ID, Query, RealtimeResponseEvent } from "react-native-appwrite";
+import { Habit, HabitCompletion } from "@/types/database.type";
 
 export default function Index() {
   // buat variabel signOut dari useAuth
@@ -19,7 +19,7 @@ export default function Index() {
   const [habits, setHabits] = useState<Habit[]>([]);
 
   // buat variabel CompleteHabits
-  const [CompleteHabits, setCompleteHabits] = useState<Habit[]>([]);
+  const [completedHabits, setCompletedHabits] = useState<HabitCompletion[]>([]);
 
   const swipeableRef = useRef<{ [key: string]: Swipeable | null }>({});
 
@@ -61,8 +61,8 @@ export default function Index() {
     try {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      const response = await databases.listDocuments(DATABASE_ID, COMPLETIONS_COLLECTION_ID, [Query.equal("user_id", user?.$id ?? ""), Query.greaterThanEqual("completed_at", today.toISOString())]);
-      setHabits(response.documents as Habit[]);
+      const response = await databases.listDocuments(DATABASE_ID, COMPLETIONS_TABLE_ID, [Query.equal("user_id", user?.$id ?? ""), Query.greaterThanEqual("completed_at", today.toISOString())]);
+      setCompletedHabits(response.documents as unknown as HabitCompletion[]);
     } catch (error) {
       console.error(error);
     }
@@ -84,7 +84,7 @@ export default function Index() {
     // panggil Databases.createDocument
     try {
       const currentDate = new Date().toISOString();
-      await databases.createDocument(DATABASE_ID, COMPLETIONS_COLLECTION_ID, ID.unique(), {
+      await databases.createDocument(DATABASE_ID, COMPLETIONS_TABLE_ID, ID.unique(), {
         habit_id: id,
         user_id: user.$id,
         completed_at: currentDate,

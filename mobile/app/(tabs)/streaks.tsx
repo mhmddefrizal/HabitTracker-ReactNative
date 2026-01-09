@@ -1,4 +1,4 @@
-import { DATABASE_ID, databases, HABITS_TABLE_ID } from "@/lib/appwrite";
+import { COMPLETIONS_TABLE_ID, DATABASE_ID, databases, HABITS_TABLE_ID } from "@/lib/appwrite";
 import { useAuth } from "@/lib/auth-context";
 import { Habit } from "@/types/database.type";
 import { useEffect, useState } from "react";
@@ -36,7 +36,7 @@ export default function StreaksScreen() {
   // buat fungsi fetchCompletion
   const fetchCompletions = async () => {
     try {
-      const response = await Databases.listDocuments(DATABASE_ID, COMPLETIONS_COLLECTION_ID, [Query.equal("user_id", user?.$id ?? "")]);
+      const response = await databases.listDocuments(DATABASE_ID, COMPLETIONS_TABLE_ID, [Query.equal("user_id", user?.$id ?? "")]);
       const completions = response.documents as HabitCompletion[];
       setCompleteHabits(completions);
     } catch (error) {
