@@ -145,3 +145,13 @@ export async function DELETE(
       success: true,
       message: 'Habit berhasil dihapus'
     }, { status: 200 });
+
+    // handling ketika terjadi error saat hapus habit
+    } catch (error) {
+    console.error('Delete habit error:', error);
+    return NextResponse.json<ApiResponse>({
+      success: false,
+      error: 'Terjadi kesalahan saat menghapus habit'
+    }, { status: 500 });
+  }
+}
