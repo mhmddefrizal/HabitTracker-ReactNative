@@ -95,3 +95,13 @@ export async function PUT(
       data: updatedHabit,
       message: 'Habit berhasil diupdate'
     }, { status: 200 });
+
+    // untuk menangani error
+    } catch (error) {
+    console.error('Update habit error:', error);
+    return NextResponse.json<ApiResponse>({
+      success: false,
+      error: 'Terjadi kesalahan saat mengupdate habit'
+    }, { status: 500 });
+  }
+}
