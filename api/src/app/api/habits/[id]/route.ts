@@ -120,3 +120,18 @@ export async function DELETE(
         error: 'Unauthorized'
       }, { status: 401 });
     }
+
+    // Cek apakah habit milik user
+    const existingHabit = await prisma.habit.findFirst({
+      where: {
+        id: params.id,
+        userId: user.userId
+      }
+    });
+
+    if (!existingHabit) {
+      return NextResponse.json<ApiResponse>({
+        success: false,
+        error: 'Habit tidak ditemukan'
+      }, { status: 404 });
+    }
