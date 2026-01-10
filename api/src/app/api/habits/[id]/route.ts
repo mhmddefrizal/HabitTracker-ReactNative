@@ -18,3 +18,22 @@ export async function GET(
         error: 'Unauthorized'
       }, { status: 401 });
     }
+    const habit = await prisma.habit.findFirst({
+      where: {
+        id: params.id,
+        userId: user.userId
+      }
+    });
+
+    // periksa apakah habit ditemukan
+    if (!habit) {
+      return NextResponse.json<ApiResponse>({
+        success: false,
+        error: 'Habit tidak ditemukan'
+      }, { status: 404 });
+    }
+
+    return NextResponse.json<ApiResponse>({
+      success: true,
+      data: habit
+    }, { status: 200 });
