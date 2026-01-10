@@ -40,3 +40,14 @@ export async function GET(request: NextRequest) {
 };
 
 // fungsi untuk menambahkan habit baru untuk user yang terautentikasi
+
+export async function POST(request: NextRequest) {
+  try {
+    const user = getUserFromRequest(request);
+
+    if (!user) {
+      return NextResponse.json<ApiResponse>({
+        success: false,
+        error: 'Unauthorized. Token tidak valid atau tidak ada.'
+      }, { status: 401 });
+    }
