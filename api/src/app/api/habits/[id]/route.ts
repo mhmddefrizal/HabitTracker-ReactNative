@@ -78,3 +78,20 @@ export async function PUT(
         error: 'Habit tidak ditemukan'
       }, { status: 404 });
     }
+
+    // Update habit
+    const updatedHabit = await prisma.habit.update({
+      where: { id: params.id },
+      data: {
+        ...(body.title && { title: body.title }),
+        ...(body.description !== undefined && { description: body.description }),
+        ...(body.frequency && { frequency: body.frequency }),
+        ...(body.targetCount !== undefined && { targetCount: body.targetCount })
+      }
+    });
+
+    return NextResponse.json<ApiResponse>({
+      success: true,
+      data: updatedHabit,
+      message: 'Habit berhasil diupdate'
+    }, { status: 200 });
