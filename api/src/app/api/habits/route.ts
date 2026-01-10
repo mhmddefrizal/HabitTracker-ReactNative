@@ -27,5 +27,13 @@ export async function GET(request: Request) {
             success: true,
             data: habits
         }, { status: 200 });
+        
+        // untuk menangani error
+    } catch (error) {
+        console.error("Error fetching habits:", error);
+        return NextResponse.json<ApiResponse>({
+            success: false,
+            error: "Terjadi kesalahan saat mengambil data habits"
+        }, { status: 500 });
     }
 };
