@@ -1,10 +1,10 @@
 import { getUserFromRequest } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { ApiResponse } from "@/lib/types";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 // fungsi untuk mendapatkan semua habit dari user yang terautentikasi
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
     try {
         const user = getUserFromRequest(request);
 
