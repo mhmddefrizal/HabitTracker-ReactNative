@@ -1,3 +1,4 @@
+
 import { getUserFromRequest } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { ApiResponse } from "@/lib/types";
@@ -37,3 +38,5 @@ export async function GET(request: NextRequest) {
         }, { status: 500 });
     }
 };
+
+// fungsi untuk menambahkan habit baru untuk user yang terautentikasi
