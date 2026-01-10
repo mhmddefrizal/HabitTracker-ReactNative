@@ -105,3 +105,18 @@ export async function PUT(
     }, { status: 500 });
   }
 }
+
+// DELETE: Hapus habit
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const user = getUserFromRequest(request);
+
+    if (!user) {
+      return NextResponse.json<ApiResponse>({
+        success: false,
+        error: 'Unauthorized'
+      }, { status: 401 });
+    }
