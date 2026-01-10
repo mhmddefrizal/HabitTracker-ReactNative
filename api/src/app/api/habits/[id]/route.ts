@@ -47,3 +47,20 @@ export async function GET(
     }, { status: 500 });
   }
 }
+
+// PUT: Update habit
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const user = getUserFromRequest(request);
+
+    if (!user) {
+      return NextResponse.json<ApiResponse>({
+        success: false,
+        error: 'Unauthorized'
+      }, { status: 401 });
+    }
+
+    const body: UpdateHabitRequest = await request.json();
