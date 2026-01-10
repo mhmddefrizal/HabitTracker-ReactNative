@@ -15,5 +15,11 @@ export async function GET(request: Request) {
                 error: "Unauthorized, token tidak valid / tidak ada",
             }, { status: 401 });
         }
+
+        // ambil semua habit dari database berdasarkan userId
+        const habits = await prisma.habit.findMany({
+            where: { userId: user.userId },
+            orderBy: { createdAt: "desc" },
+        });
     }
-}
+};
