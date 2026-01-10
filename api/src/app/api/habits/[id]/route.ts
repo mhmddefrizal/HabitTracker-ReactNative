@@ -135,3 +135,13 @@ export async function DELETE(
         error: 'Habit tidak ditemukan'
       }, { status: 404 });
     }
+
+    // Hapus habit
+    await prisma.habit.delete({
+      where: { id: params.id }
+    });
+
+    return NextResponse.json<ApiResponse>({
+      success: true,
+      message: 'Habit berhasil dihapus'
+    }, { status: 200 });
