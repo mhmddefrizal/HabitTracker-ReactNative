@@ -37,3 +37,13 @@ export async function GET(
       success: true,
       data: habit
     }, { status: 200 });
+
+    // handling ketika terjadi error
+    } catch (error) {
+    console.error('Get habit error:', error);
+    return NextResponse.json<ApiResponse>({
+      success: false,
+      error: 'Terjadi kesalahan saat mengambil data habit'
+    }, { status: 500 });
+  }
+}
