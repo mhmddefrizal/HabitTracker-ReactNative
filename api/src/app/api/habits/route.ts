@@ -21,5 +21,11 @@ export async function GET(request: Request) {
             where: { userId: user.userId },
             orderBy: { createdAt: "desc" },
         });
+
+        // kembalikan response dengan data habits
+        return NextResponse.json<ApiResponse>({
+            success: true,
+            data: habits
+        }, { status: 200 });
     }
 };
