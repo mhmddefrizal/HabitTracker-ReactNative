@@ -1,7 +1,7 @@
 
 import { getUserFromRequest } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { ApiResponse } from "@/lib/types";
+import { ApiResponse, CreateHabitRequest } from "@/lib/types";
 import { NextResponse, NextRequest } from "next/server";
 
 // fungsi untuk mendapatkan semua habit dari user yang terautentikasi
@@ -72,3 +72,18 @@ export async function POST(request: NextRequest) {
         userId: user.userId
       }
     });
+    return NextResponse.json<ApiResponse>({
+      success: true,
+      data: habit,
+      message: 'Habit berhasil dibuat'
+    }, { status: 201 });
+
+    // untuk menangani error
+  } catch (error) {
+    console.error('Create habit error:', error);
+    return NextResponse.json<ApiResponse>({
+      success: false,
+      error: 'Terjadi kesalahan saat membuat habit'
+    }, { status: 500 });
+  }
+}
