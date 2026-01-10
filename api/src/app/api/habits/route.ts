@@ -51,3 +51,24 @@ export async function POST(request: NextRequest) {
         error: 'Unauthorized. Token tidak valid atau tidak ada.'
       }, { status: 401 });
     }
+
+    const body: CreateHabitRequest = await request.json();
+    const { title, description, frequency, targetCount } = body;
+
+    // Validasi input
+    if (!title) {
+      return NextResponse.json<ApiResponse>({
+        success: false,
+        error: 'Judul habit harus diisi'
+      }, { status: 400 });
+    }
+
+    const habit = await prisma.habit.create({
+      data: {
+        title,
+        description: description || null,
+        frequency: frequency || 'daily',
+        targetCount: targetCount || 1,
+        userId: user.userId
+      }
+    });
