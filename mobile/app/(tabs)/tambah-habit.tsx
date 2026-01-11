@@ -28,7 +28,7 @@ export default function TambahHabitScreen() {
         frequency,
         streak_count: 0,
         last_completed: new Date().toISOString(),
-        $createdAt: new Date().toISOString(),
+        created_at: new Date().toISOString(),
       });
 
       router.back();
