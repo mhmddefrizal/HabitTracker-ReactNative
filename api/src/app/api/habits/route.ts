@@ -1,0 +1,89 @@
+
+import { getUserFromRequest } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { ApiResponse, CreateHabitRequest } from "@/lib/types";
+import { NextResponse, NextRequest } from "next/server";
+
+// fungsi untuk mendapatkan semua habit dari user yang terautentikasi
+export async function GET(request: NextRequest) {
+    try {
+        const user = getUserFromRequest(request);
+
+        // periksa apakah user ada
+        if (!user) {
+            return NextResponse.json<ApiResponse>({
+                success: false,
+                error: "Unauthorized, token tidak valid / tidak ada",
+            }, { status: 401 });
+        }
+
+        // ambil semua habit dari database berdasarkan userId
+        const habits = await prisma.habit.findMany({
+            where: { userId: user.userId },
+            orderBy: { createdAt: "desc" },
+        });
+
+        // kembalikan response dengan data habits
+        return NextResponse.json<ApiResponse>({
+            success: true,
+            data: habits
+        }, { status: 200 });
+        
+        // untuk menangani error
+    } catch (error) {
+        console.error("Error fetching habits:", error);
+        return NextResponse.json<ApiResponse>({
+            success: false,
+            error: "Terjadi kesalahan saat mengambil data habits"
+        }, { status: 500 });
+    }
+};
+
+// fungsi untuk menambahkan habit baru untuk user yang terautentikasi
+
+export async function POST(request: NextRequest) {
+  try {
+    const user = getUserFromRequest(request);
+
+    if (!user) {
+      return NextResponse.json<ApiResponse>({
+        success: false,
+        error: 'Unauthorized. Token tidak valid atau tidak ada.'
+      }, { status: 401 });
+    }
+
+    const body: CreateHabitRequest = await request.json();
+    const { title, description, frequency, targetCount } = body;
+
+    // Validasi input
+    if (!title) {
+      return NextResponse.json<ApiResponse>({
+        success: false,
+        error: 'Judul habit harus diisi'
+      }, { status: 400 });
+    }
+
+    const habit = await prisma.habit.create({
+      data: {
+        title,
+        description: description || null,
+        frequency: frequency || 'daily',
+        targetCount: targetCount || 1,
+        userId: user.userId
+      }
+    });
+    return NextResponse.json<ApiResponse>({
+      success: true,
+      data: habit,
+      message: 'Habit berhasil dibuat'
+    }, { status: 201 });
+
+    // untuk menangani error
+  } catch (error) {
+    console.error('Create habit error:', error);
+    return NextResponse.json<ApiResponse>({
+      success: false,
+      error: 'Terjadi kesalahan saat membuat habit'
+    }, { status: 500 });
+  }
+}
