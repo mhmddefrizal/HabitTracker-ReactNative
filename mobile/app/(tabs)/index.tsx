@@ -6,7 +6,7 @@ import { Button, Text, Card, Surface } from "react-native-paper";
 import TambahHabitScreen from "./tambah-habit";
 import CardTitle from "react-native-paper/lib/typescript/components/Card/CardTitle";
 import { useEffect, useRef, useState } from "react";
-import { client, COMPLETIONS_TABLE_ID, DATABASE_ID, databases, HABITS_TABLE_ID } from "@/lib/appwrite";
+import { client, COMPLETIONS_TABLE_ID, DATABASE_ID, databases, HABITS_TABLE_ID, RealtimeResponse } from "@/lib/appwrite";
 import { Swipeable } from "react-native-gesture-handler";
 import { Databases, ID, Query, RealtimeResponseEvent } from "react-native-appwrite";
 import { Habit, HabitCompletion } from "@/types/database.type";
@@ -19,14 +19,14 @@ export default function Index() {
   const [habits, setHabits] = useState<Habit[]>([]);
 
   // buat variabel CompleteHabits
-  const [completedHabits, setCompletedHabits] = useState<HabitCompletion[]>([]);
+  const [completedHabits, setCompletedHabits] = useState<string[]>();
 
   const swipeableRef = useRef<{ [key: string]: Swipeable | null }>({});
 
   useEffect(() => {
     if (user) {
-      const channel = `databases.${DATABASE_ID}.collections.${HABITS_TABLE_ID}.documents`;
-      const habitsSubsription = client.subscribe(channel, (response: RealtimeResponseEvent<Habit>) => {
+      const habitChannel = `databases.${DATABASE_ID}.collections.${HABITS_TABLE_ID}.documents`;
+      const habitsSubsription = client.subscribe(habitChannel, (response: RealtimeResponse) => {
         if (response.events.includes("databases.*.collections.*.documents.*.create")) {
           fetchHabits();
         } else if (response.events.includes("databases.*.collections.*.documents.*.update")) {
@@ -35,6 +35,14 @@ export default function Index() {
           fetchHabits();
         }
       });
+
+      const completionsChannel = `databases.${DATABASE_ID}.collections.${COMPLETIONS_TABLE_ID}.documents`;
+      const completionsSubsription = client.subscribe(completionsChannel, (response: RealtimeResponse) => {
+        if (response.events.includes("databases.*.collections.*.documents.*.create")) {
+          fetchTodayCompletion();
+        }
+      });
+
       fetchHabits();
       fetchTodayCompletion();
 
@@ -62,7 +70,8 @@ export default function Index() {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const response = await databases.listDocuments(DATABASE_ID, COMPLETIONS_TABLE_ID, [Query.equal("user_id", user?.$id ?? ""), Query.greaterThanEqual("completed_at", today.toISOString())]);
-      setCompletedHabits(response.documents as unknown as HabitCompletion[]);
+      const completions = response.documents as unknown as HabitCompletion[];
+      setCompletedHabits(completions.map((c) => c.habit_id));
     } catch (error) {
       console.error(error);
     }
@@ -80,7 +89,7 @@ export default function Index() {
 
   // buat fungsi CompleteHabit
   const handleCompleteHabit = async (id: string) => {
-    if (!user) return;
+    if (!user || completedHabits?.includes(id)) return;
     // panggil Databases.createDocument
     try {
       const currentDate = new Date().toISOString();
@@ -105,12 +114,12 @@ export default function Index() {
   };
 
   // buat fungsi isHabitComplete
-  const isHabitComplete = (habitId: string) => completedHabits?.includes(habitId);
+  const isHabitCompleted = (habitId: string) => completedHabits?.includes(habitId);
 
   // buat fungsi swipe ke kanan
   const renderRightActions = (habitId: string) => (
     // buat swipe action
-    <View style={styles.swipeActionRight}>{isHabitComplete(habitId) ? <Text style={{ color: "white" }}>Selesai!</Text> : <MaterialCommunityIcons name="check-circle-outline" size={32} color="white" />}</View>
+    <View style={styles.swipeActionRight}>{isHabitCompleted(habitId) ? <Text style={{ color: "white" }}>Selesai!</Text> : <MaterialCommunityIcons name="check-circle-outline" size={32} color="white" />}</View>
   );
 
   // buat fungsi swipe ke kiri
@@ -145,9 +154,9 @@ export default function Index() {
               key={key}
               overshootLeft={false}
               overshootRight={false}
-              renderRightActions={() => renderRightActions(habits.$id)}
+              renderRightActions={() => renderRightActions(habit.$id)}
               renderLeftActions={renderLeftActions}
-              onswipeableOpen={(direction) => {
+              onSwipeableOpen={(direction) => {
                 // buat swipe action
                 if (direction === "right") {
                   handleDeleteHabit(habit.$id);
@@ -158,7 +167,7 @@ export default function Index() {
                 swipeableRef.current[habit.$id]?.close();
               }}
             >
-              <Surface style={[styles.card, isHabitComplete(habit.$id) && styles.cardCompleted]} elevation={0}>
+              <Surface style={[styles.card, isHabitCompleted(habit.$id) && styles.cardCompleted]} elevation={0}>
                 <View key={key} style={styles.cardContent}>
                   <Text style={styles.cardTitle}>{habit.title}</Text>
                   <Text style={styles.cardDescription}>{habit.description}</Text>

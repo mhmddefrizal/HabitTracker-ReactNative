@@ -1,16 +1,16 @@
 import { COMPLETIONS_TABLE_ID, DATABASE_ID, databases, HABITS_TABLE_ID } from "@/lib/appwrite";
 import { useAuth } from "@/lib/auth-context";
-import { Habit } from "@/types/database.type";
+import { Habit, HabitCompletion } from "@/types/database.type";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { Databases, Query } from "react-native-appwrite";
 
 export default function StreaksScreen() {
   // buat variabel habits
-  const [habits, setHabits] = useState<Habit[]>([]);
+  const [habits, setHabits] = useState<Habit[]>();
 
   // buat variabel CompleteHabits
-  const [CompleteHabits, setCompleteHabits] = useState<HabitCompletion[]>([]);
+  const [completedHabits, setCompletedHabits] = useState<HabitCompletion[]>();
 
   // buat variabel user
   const { user } = useAuth();
@@ -27,7 +27,7 @@ export default function StreaksScreen() {
     // panggil Databases.listDocuments
     try {
       const response = await databases.listDocuments(DATABASE_ID, HABITS_TABLE_ID, [Query.equal("user_id", user?.$id ?? "")]);
-      setHabits(response.documents as Habit[]);
+      setHabits(response.documents as unknown as Habit[]);
     } catch (error) {
       console.error(error);
     }
@@ -37,8 +37,8 @@ export default function StreaksScreen() {
   const fetchCompletions = async () => {
     try {
       const response = await databases.listDocuments(DATABASE_ID, COMPLETIONS_TABLE_ID, [Query.equal("user_id", user?.$id ?? "")]);
-      const completions = response.documents as HabitCompletion[];
-      setCompleteHabits(completions);
+      const completions = response.documents as unknown as HabitCompletion[];
+      setCompletedHabits(completions);
     } catch (error) {
       console.error(error);
     }
@@ -51,9 +51,9 @@ export default function StreaksScreen() {
   }
 
   const getStreakData = (habitId: string): StreakData => {
-    const habitCompletions = CompleteHabits?.filter((c) => c.habit_id === habitId).sort((a, b) => new Date(a.completed_at).getTime() - new Date(b.completed_at).getTime());
+    const habitCompletions = completedHabits?.filter((c) => c.habit_id === habitId).sort((a, b) => new Date(a.completed_at).getTime() - new Date(b.completed_at).getTime()) ?? [];
 
-    if (habitCompletions?.length === 0) {
+    if (habitCompletions.length === 0) {
       return { streak: 0, bestStreak: 0, total: 0 };
     }
 
@@ -85,13 +85,13 @@ export default function StreaksScreen() {
     return { streak, bestStreak, total };
   };
 
-  const habitStreaks = habits.map((habit) => {
+  const habitStreaks = habits?.map((habit) => {
     const { streak, bestStreak, total } = getStreakData(habit.$id);
     return { habit, streak, bestStreak, total };
   });
 
-  const rankedHabits = habitStreaks.sort((a, b) => a.bestStreak - b.bestStreak);
-  console.log(rankedHabits.map((h) => h.habit.title));
+  const rankedHabits = habitStreaks?.sort((a, b) => a.bestStreak - b.bestStreak);
+  console.log(rankedHabits?.map((h) => h.habit.title));
 
   return (
     <View>
