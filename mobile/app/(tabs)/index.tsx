@@ -106,7 +106,7 @@ export default function Index() {
       // panggil Databases.updateDocument
       await databases.updateDocument(DATABASE_ID, HABITS_TABLE_ID, id, {
         streak_count: (habit.streak_count ?? 0) + 1,
-        last_completed_at: currentDate,
+        last_completed: currentDate,
       });
     } catch (error) {
       console.error(error);
