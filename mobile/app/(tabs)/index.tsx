@@ -134,7 +134,7 @@ export default function Index() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Habit Hari Ini</Text>
-        <Text>{user?.name}</Text>
+        <Text>HabitTracker-App</Text>
         <Button mode="text" onPress={signOut} icon={"logout"}>
           Keluar
         </Button>
