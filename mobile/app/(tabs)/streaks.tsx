@@ -161,4 +161,31 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#f0f0f0",
   },
+  firstCard: {
+    borderWidth: 2,
+    borderColor: "#7c4dff",
+  },
+  habitTitle: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginBottom: 2,
+  },
+  habitDescription: {
+    color: "#6c6c80",
+    marginBottom: 8,
+  },
+  statsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 8,
+    marginBottom: 12,
+  },
+  statBadge: {
+    backgroundColor: "#fff3e0",
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    alignItems: "center",
+    minWidth: 80,
+  },
 });
