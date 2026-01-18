@@ -4,6 +4,7 @@ import { Habit, HabitCompletion } from "@/types/database.type";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { Databases, Query } from "react-native-appwrite";
+import { Card } from "react-native-paper";
 
 export default function StreaksScreen() {
   // buat variabel habits
@@ -91,11 +92,29 @@ export default function StreaksScreen() {
   });
 
   const rankedHabits = habitStreaks?.sort((a, b) => a.bestStreak - b.bestStreak);
-  console.log(rankedHabits?.map((h) => h.habit.title));
 
   return (
     <View>
       <Text> Habit Streaks</Text>
+
+      {habits.length === 0 ? (
+        <View>
+          {""}
+          <Text>
+            {""}
+            No Habits yet. Tambah Habit Pertamamu!
+          </Text>
+        </View>
+      ) : (
+        rankedHabits.map(({ habit, streak, bestStreak, total }, key) => (
+          <Card key={key}>
+            <Card.Content>
+              <Text> {habit.title}</Text>
+              <Text> {habit.description}</Text>
+            </Card.Content>
+          </Card>
+        ))
+      )}
     </View>
   );
 }
