@@ -102,7 +102,7 @@ export default function StreaksScreen() {
           {""}
           <Text>
             {""}
-            No Habits yet. Tambah Habit Pertamamu!
+            Belum Ada Habit. Tambah Habit Pertamamu!
           </Text>
         </View>
       ) : (
