@@ -7,10 +7,10 @@ import { Databases, Query } from "react-native-appwrite";
 
 export default function StreaksScreen() {
   // buat variabel habits
-  const [habits, setHabits] = useState<Habit[]>();
+  const [habits, setHabits] = useState<Habit[]>([]);
 
   // buat variabel CompleteHabits
-  const [completedHabits, setCompletedHabits] = useState<HabitCompletion[]>();
+  const [completedHabits, setCompletedHabits] = useState<HabitCompletion[]>([]);
 
   // buat variabel user
   const { user } = useAuth();
@@ -95,7 +95,7 @@ export default function StreaksScreen() {
 
   return (
     <View>
-      <Text>Ini adalah halaman login</Text>
+      <Text> Habit Streaks</Text>
     </View>
   );
 }
