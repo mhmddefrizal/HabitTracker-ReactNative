@@ -117,15 +117,15 @@ export default function StreaksScreen() {
               <View style={styles.statsRow}>
                 <View style={styles.statBadge}>
                   <Text style={styles.statBadgeText}> 🔥 {streak}</Text>
-                  <Text style={styles.statBadgeLabel}> Current</Text>
+                  <Text style={styles.statLabel}> Current</Text>
                 </View>
                 <View style={styles.statBadgeGold}>
                   <Text style={styles.statBadgeText}> 🏆 {bestStreak}</Text>
-                  <Text style={styles.statBadgeLabel}> Best</Text>
+                  <Text style={styles.statLabel}> Best</Text>
                 </View>
                 <View style={styles.statBadgeGreen}>
                   <Text style={styles.statBadgeText}> ✅ {total}</Text>
-                  <Text style={styles.statBadgeLabel}> Total</Text>
+                  <Text style={styles.statLabel}> Total</Text>
                 </View>
               </View>
             </Card.Content>
@@ -186,6 +186,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     alignItems: "center",
-    minWidth: 80,
+    minWidth: 60,
+  },
+  statBadgeGold: {
+    backgroundColor: "#fffde7",
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    alignItems: "center",
+    minWidth: 60,
+  },
+  statBadgeGreen: {
+    backgroundColor: "#e8f5e9",
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    alignItems: "center",
+    minWidth: 60,
+  },
+  statBadgeText: {
+    fontWeight: "bold",
+    fontSize: 15,
+    color: "#22223b",
+  },
+  statLabel: {
+    fontSize: 11,
+    color: "#888",
+    marginTop: 2,
+    fontWeight: "500",
   },
 });
