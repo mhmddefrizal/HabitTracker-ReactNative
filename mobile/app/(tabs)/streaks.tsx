@@ -94,8 +94,8 @@ export default function StreaksScreen() {
   const rankedHabits = habitStreaks?.sort((a, b) => a.bestStreak - b.bestStreak);
 
   return (
-    <View>
-      <Text> Habit Streaks</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}> Habit Streaks</Text>
 
       {habits.length === 0 ? (
         <View>
@@ -137,7 +137,28 @@ export default function StreaksScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#f5f5f5",
+  },
   title: {
     fontWeight: "bold",
+    marginBottom: 16,
+  },
+  card: {
+    marginBottom: 18,
+    borderRadius: 18,
+    backgroundColor: "#ffffff",
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    borderWidth: 1,
+    borderColor: "#f0f0f0",
   },
 });
