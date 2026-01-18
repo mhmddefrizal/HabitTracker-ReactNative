@@ -111,6 +111,11 @@ export default function StreaksScreen() {
             <Card.Content>
               <Text> {habit.title}</Text>
               <Text> {habit.description}</Text>
+              <View>
+                <View>
+                  <Text> 🔥 {streak}</Text>
+                </View>
+              </View>
             </Card.Content>
           </Card>
         ))
