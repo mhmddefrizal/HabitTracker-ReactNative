@@ -114,6 +114,15 @@ export default function StreaksScreen() {
               <View>
                 <View>
                   <Text> 🔥 {streak}</Text>
+                  <Text> Current</Text>
+                </View>
+                <View>
+                  <Text> 🏆 {bestStreak}</Text>
+                  <Text> Best</Text>
+                </View>
+                <View>
+                  <Text> ✅ {total}</Text>
+                  <Text> Total</Text>
                 </View>
               </View>
             </Card.Content>
