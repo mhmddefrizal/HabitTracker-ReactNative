@@ -158,9 +158,9 @@ export default function Index() {
               renderLeftActions={renderLeftActions}
               onSwipeableOpen={(direction) => {
                 // buat swipe action
-                if (direction === "right") {
+                if (direction === "left") {
                   handleDeleteHabit(habit.$id);
-                } else if (direction === "left") {
+                } else if (direction === "right") {
                   handleCompleteHabit(habit.$id);
                 }
 
