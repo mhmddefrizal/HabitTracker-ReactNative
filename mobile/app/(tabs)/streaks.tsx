@@ -2,9 +2,9 @@ import { COMPLETIONS_TABLE_ID, DATABASE_ID, databases, HABITS_TABLE_ID } from "@
 import { useAuth } from "@/lib/auth-context";
 import { Habit, HabitCompletion } from "@/types/database.type";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Databases, Query } from "react-native-appwrite";
-import { Card } from "react-native-paper";
+import { Card, Text } from "react-native-paper";
 
 export default function StreaksScreen() {
   // buat variabel habits
@@ -107,22 +107,25 @@ export default function StreaksScreen() {
         </View>
       ) : (
         rankedHabits.map(({ habit, streak, bestStreak, total }, key) => (
-          <Card key={key}>
+          <Card key={key} style={[styles.card, key === 0 && styles.firstCard]}>
             <Card.Content>
-              <Text> {habit.title}</Text>
-              <Text> {habit.description}</Text>
-              <View>
-                <View>
-                  <Text> 🔥 {streak}</Text>
-                  <Text> Current</Text>
+              <Text variant="titleMedium" style={styles.habitTitle}>
+                {" "}
+                {habit.title}
+              </Text>
+              <Text style={styles.habitDescription}> {habit.description}</Text>
+              <View style={styles.statsRow}>
+                <View style={styles.statBadge}>
+                  <Text style={styles.statBadgeText}> 🔥 {streak}</Text>
+                  <Text style={styles.statBadgeLabel}> Current</Text>
                 </View>
-                <View>
-                  <Text> 🏆 {bestStreak}</Text>
-                  <Text> Best</Text>
+                <View style={styles.statBadgeGold}>
+                  <Text style={styles.statBadgeText}> 🏆 {bestStreak}</Text>
+                  <Text style={styles.statBadgeLabel}> Best</Text>
                 </View>
-                <View>
-                  <Text> ✅ {total}</Text>
-                  <Text> Total</Text>
+                <View style={styles.statBadgeGreen}>
+                  <Text style={styles.statBadgeText}> ✅ {total}</Text>
+                  <Text style={styles.statBadgeLabel}> Total</Text>
                 </View>
               </View>
             </Card.Content>
@@ -132,3 +135,9 @@ export default function StreaksScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  title: {
+    fontWeight: "bold",
+  },
+});
